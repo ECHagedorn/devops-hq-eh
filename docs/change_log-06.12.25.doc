@@ -88,3 +88,59 @@ This document outlines key challenges encountered during the initial setup of th
     3.  Ensure image pushing is successful.
     * Leverage `tkn pr logs <pipelinerun-name> -f` to stream real-time logs and identify failures quickly.
     * For detailed step-specific logs, use `kubectl logs <pod-name> -c <step-container-name> -n <namespace>`.
+
+
+Commit History:
+
+Author: Emmanuel Hagedorn <hagedorn.emmanuel.us@gmail.com>
+Date:   Thu Jun 12 17:41:28 2025 -0400
+
+    finalizing and re-organizing repo
+
+commit c5054c5f7d6e8e4b4b17b367dc788c92a5ba794f
+Author: Emmanuel Hagedorn <hagedorn.emmanuel.us@gmail.com>
+Date:   Thu Jun 12 16:21:02 2025 -0400
+
+    adding docs and lessons learned
+
+commit 42473786664239979e1d2d058befe345e1d4f83c
+Author: Emmanuel Hagedorn <hagedorn.emmanuel.us@gmail.com>
+Date:   Thu Jun 12 15:21:50 2025 -0400
+
+    building dockerimages via tekton pipelining
+
+commit 5e2c4a7982af6b9d89d7074dc553ed6019d8e3f9
+Author: Emmanuel Hagedorn <hagedorn.emmanuel.us@gmail.com>
+Date:   Thu Jun 12 15:12:49 2025 -0400
+
+    removing missing package
+
+commit f88e00d5f340fd23ef4a9694e0ad5bff92945a69
+Author: Emmanuel Hagedorn <hagedorn.emmanuel.us@gmail.com>
+Date:   Thu Jun 12 15:09:14 2025 -0400
+
+    added tools to debugpod
+
+commit 369cfd0e04224516f07ec75fc4b1a71102f991da
+Author: Emmanuel Hagedorn <hagedorn.emmanuel.us@gmail.com>
+Date:   Thu Jun 12 15:00:35 2025 -0400
+
+    building dockerimages via tekton pipelining
+
+commit f26eafaa52d55f1b6112794fbbd1861163e14e23
+Author: Emmanuel Hagedorn <hagedorn.emmanuel.us@gmail.com>
+Date:   Thu Jun 12 12:48:45 2025 -0400
+
+    initial commit: first few files for tekton pipelining
+
+commit afb4b7ddb549611325f71edc32da0a1720f2797b
+Author: Emmanuel Hagedorn <hagedorn.emmanuel.us@gmail.com>
+Date:   Thu Jun 12 00:43:17 2025 -0400
+
+    initial commit: added git-ignore, README
+
+commit 7a7121759e4577bb48af2034d24b1a2351523e1c
+Author: Emmanuel Hagedorn <hagedorn.emmanuel.us@gmail.com>
+Date:   Thu Jun 12 00:41:46 2025 -0400
+
+    Initial commit: Add .gitignore

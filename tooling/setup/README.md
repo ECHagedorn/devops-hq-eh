@@ -17,7 +17,8 @@
 
 # UBUNTU NOTES:
 # -------------
-
+#   Executing ./install_devops_tools_wsl.sh kicks off workstation preparation, mind you all versions are defined on the script if there are 
+#   upgrades or changes to be done do so after careful review of what impact it may bring
 
 # K3S
 # ---
