@@ -28,7 +28,6 @@ RUN apk update && \
     nmap \
     socat \
     tcpdump \
-    telnet \
     ncurses \
     lsof \
     strace \
