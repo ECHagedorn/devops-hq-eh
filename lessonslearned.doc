@@ -1,0 +1,90 @@
+That's an excellent idea to document the progress and lessons learned! It will serve as a valuable reference.
+
+Here are the two documents summarizing your journey so far:
+
+---
+
+# **Tekton CI/CD Project: Phase 1 Recap**
+
+## **Project Goal**
+Establish a foundational Continuous Integration/Continuous Delivery (CI/CD) pipeline environment using K3s and Tekton, capable of fetching source code, building container images, and pushing them to a local registry.
+
+## **Completed Components & Features**
+
+1.  **Workstation Preparation:**
+    * **Operating System:** Windows 10/11 with Windows Subsystem for Linux 2 (WSL2).
+    * **WSL2 Distribution:** Ubuntu (or similar Debian-based distribution).
+    * **Version Control:** Git installed and configured.
+    * **IDE Setup:** Visual Studio Code (VS Code) with necessary extensions for Go, Kubernetes, and Git integration.
+    * **Go Language:** Go development environment configured for potential future Go applications.
+    * **Kubernetes Client:** `kubectl` installed and configured.
+    * **Tekton CLI:** `tkn` (Tekton CLI) installed for easy interaction with Tekton resources.
+    * **Kubernetes Dashboard:** K9s installed for a robust terminal UI to manage Kubernetes resources.
+
+2.  **K3s Cluster Installation:**
+    * A lightweight Kubernetes cluster (K3s) successfully installed and running within the WSL2 environment, serving as the target environment for the CI/CD pipeline.
+
+3.  **Source Code Repository:**
+    * A simple Git repository (`devops-hq-eh`) has been prepared. This repository serves as the basis for CI/CD builds, containing a sample project (e.g., the `debug-pod` project with its Dockerfile).
+
+4.  **Tekton Installation & Basic Pipeline Functionality:**
+    * Tekton Pipelines successfully installed onto the K3s cluster.
+    * A Tekton Pipeline (`build-debug-pod-pipeline`) was created, along with a `PipelineRun` (`build-debug-pod-run-manual-00x`), to automate the build and push process.
+    * **Successful Git Repository Cloning:** The pipeline can now successfully clone the source code from the private GitHub repository using SSH authentication.
+    * **Successful Image Building and Pushing:** The pipeline can now successfully build the Docker image (`debug-pod:latest`) from the source code and push it to an in-cluster Docker registry.
+
+---
+
+# **Tekton CI/CD Project: Lessons Learned (Phase 1)**
+
+This document outlines key challenges encountered during the initial setup of the Tekton CI/CD pipeline and the solutions implemented. These lessons are valuable for future pipeline development and troubleshooting.
+
+## **1. SSH Authentication for Git Clone in Tekton**
+
+* **Challenge:** Initial `git-clone` tasks in Tekton Pipelines failed with "Permission denied (publickey)" or "no SSH credentials provided," despite having a valid SSH key in a Kubernetes Secret.
+* **Lesson Learned:**
+    * Kubernetes SSH Secrets (`kubernetes.io/ssh-auth`) must have the private key stored under the key `ssh-privatekey`.
+    * The ServiceAccount used by the Tekton TaskRun must reference this SSH Secret via `secrets:` field.
+    * **Crucially:** Tekton's `git-init` entrypoint needs an explicit hint about *which* Git host a given SSH key is for. This is provided by an annotation on the ServiceAccount, mapping the secret index to the host.
+* **Solution:** Add the annotation `tekton.dev/git-0: github.com` to the `ServiceAccount` used by the PipelineRun (e.g., `tekton-sa`). This tells `git-init` to associate the first SSH secret with `github.com`.
+
+## **2. Accessing Local Docker Registry from K3s Pods**
+
+* **Challenge:** Tekton build pods could not push to a Docker registry running on the WSL2 host machine at `localhost:5000`, resulting in "connection refused" errors.
+* **Lesson Learned:**
+    * Kubernetes pods have isolated network namespaces. `localhost` inside a pod refers to the pod itself, not the host machine.
+    * Directly accessing `localhost` on the WSL2 host from a K3s pod is unreliable/impossible without specific networking configurations.
+* **Solution:** Deploy an in-cluster Docker registry directly within the K3s cluster. This makes it reliably accessible to all pods via its internal Kubernetes service name (e.g., `registry.default.svc.cluster.local:5000`).
+* **Configuration for Insecure Registry:** K3s's underlying container runtime (containerd) needs to be explicitly configured to allow pushing/pulling from insecure registries (those without HTTPS/TLS).
+* **Solution:** Create `/etc/rancher/k3s/registries.yaml` on the K3s node (your WSL2 VM) with an `insecure_skip_verify: true` entry for the in-cluster registry's FQDN, and restart K3s.
+
+## **3. Dockerfile Parsing Errors**
+
+* **Challenge:** The `build-and-push` task failed with a "Dockerfile parse error: FROM requires either one or three arguments," even when the Dockerfile syntax appeared correct.
+* **Lesson Learned:**
+    * Even seemingly valid Dockerfiles can contain subtle issues like invisible/non-printable characters, incorrect file encodings, or mixed line endings (e.g., Windows CRLF on Linux) that can confuse build tools like Buildah or Kaniko.
+    * Verify the `DOCKERFILE_PATH` and `CONTEXT_PATH` parameters in the Tekton task.
+* **Solution:** Manually re-type the Dockerfile content into a fresh file to eliminate hidden characters, and ensure correct line endings.
+
+## **4. `skopeo` Version and Feature Discrepancies**
+
+* **Challenge:** The `skopeo list-repositories` command consistently failed with "Unrecognized command," despite `skopeo --version` showing a recent version (1.13.3) that should include this command.
+* **Lesson Learned:**
+    * Linux distribution packages (like those from `apt`) can sometimes build tools with specific features omitted or compiled differently, even for recent version numbers.
+    * Always verify the available subcommands directly using `tool --help`.
+* **Solution:** For listing all repositories, the `curl` method directly querying the Docker Registry V2 API via `http://localhost:5000/v2/_catalog` (after port-forwarding the registry service) is the most universal and reliable approach when `skopeo`'s features are inconsistent. `skopeo list-tags` can still be used for known image names.
+
+## **5. File Permissions in WSL2/Linux**
+
+* **Challenge:** Attempting to modify system configuration files (e.g., `/etc/rancher/k3s/registries.yaml`) resulted in "E212: Can't open file for writing" errors in Vim.
+* **Lesson Learned:** Files in system directories like `/etc/` are owned by `root` and require elevated privileges for modification.
+* **Solution:** Always use `sudo` when attempting to edit system configuration files (e.g., `sudo vim /etc/rancher/k3s/registries.yaml`).
+
+## **6. Tekton Pipeline Debugging Methodology**
+
+* **Lesson Learned:** Debugging a CI/CD pipeline is best approached step-by-step:
+    1.  Ensure source code cloning is successful.
+    2.  Ensure image building is successful.
+    3.  Ensure image pushing is successful.
+    * Leverage `tkn pr logs <pipelinerun-name> -f` to stream real-time logs and identify failures quickly.
+    * For detailed step-specific logs, use `kubectl logs <pod-name> -c <step-container-name> -n <namespace>`.
