@@ -10,6 +10,8 @@
 #   Open powershell and execute the following after replacing the approppriate parameters:
 #   you can retrieve the wsl_ip after running ifconfig from `wsl`
 
+
+#       $ netsh interface portproxy show all
 #       $ netsh interface portproxy add v4tov4 listenaddress=0.0.0.0 listenport=${nodePort} connectaddress=${wsl_ip} connectport=${nodePort}
 
 
@@ -52,5 +54,7 @@
 #            tls:
 #              insecure_skip_verify: true
 # 
-#   k3s needs to be restarted after
+#   k3s needs to be restarted and the registry service needs to be exposed after
+
+#       $ kubectl expose svc registry -n default --type=NodePort --name=registry-np --port=5000 --target-port=5000
 

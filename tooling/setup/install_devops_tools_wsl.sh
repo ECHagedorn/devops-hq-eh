@@ -148,7 +148,6 @@ echo "Terraform version:"
 terraform --version
 check_command "terraform version check"
 
-# ... (previous script content) ...
 
 # Step 7: Install Ansible
 
@@ -201,7 +200,7 @@ echo "nerdctl version: " && nerdctl --version
 echo "Local registry pods: " && kubectl get pods -l app=registry
 echo "Local registry service: " && kubectl get svc registry
 echo "Terraform version: " && terraform --version
-echo "Ansible version: " && ansible --version
+echo "Ansible version: " && ansible-community --version
 echo "Go version: " && go version
 
 echo "--- Final Steps on Windows Host ---"

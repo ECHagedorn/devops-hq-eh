@@ -15,3 +15,5 @@ spec:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           git clone git@github.com:ECHagedorn/devops-hq-eh.git
+          ls -ltrh
+          pwd

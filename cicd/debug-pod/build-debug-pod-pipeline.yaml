@@ -36,9 +36,9 @@ spec:
         - name: IMAGE_NAME
           value: registry.default.svc.cluster.local:5000/debug-pod:latest
         - name: DOCKERFILE_PATH
-          value: ./debug-pod/Dockerfile
+          value: ./services/debug-pod/Dockerfile
         - name: CONTEXT_PATH
-          value: .
+          value: ./services
       workspaces:
         - name: source
           workspace: shared-workspace
