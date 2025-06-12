@@ -11,15 +11,15 @@ spec:
     - name: DOCKERFILE_PATH
       type: string
       description: Path to the Dockerfile within the source context
-      default: ./Dockerfile # Our Dockerfile is here relative to project root
+      default: ./debug-pod/Dockerfile # Our Dockerfile is here relative to project root
     - name: CONTEXT_PATH
       type: string
       description: Path to the build context
-      default: ./debug-pod # Use the current project root as context (where Dockerfile and code are)
+      default: . # Use the current project root as context (where Dockerfile and code are)
     - name: BUILDER_IMAGE
       type: string
       description: The Kaniko builder image to use
-      default: gcr.io/kaniko-project/executor:latest # Use a stable Kaniko executor
+      default: gcr.io/kaniko-project/executor:debug # Use a stable Kaniko executor
   workspaces:
     - name: source # Workspace to hold the source code (your devops-hq-eh repo)
   steps:
@@ -29,15 +29,10 @@ spec:
         - name: "DOCKER_CONFIG"
           value: "/tekton/home/.docker/" # Kaniko expects this for config.json
       command:
-        - /kaniko/executor
+        - "/bin/sh"
       args:
-        - "--dockerfile=$(params.DOCKERFILE_PATH)"
-        - "--context=$(workspaces.source.path)/$(params.CONTEXT_PATH)"
-        - "--destination=$(params.IMAGE_NAME)"
-        - "--skip-tls-verify=true" # Necessary for insecure local registry
-        - "--insecure-registry=$(params.IMAGE_NAME)" # Also specify target as insecure
-        - "--insecure-registry=localhost:5000" # Explicitly mark localhost:5000 as insecure
-        - "--ignore-path=/tekton/home/.docker/config.json" # Ignore config map mounted
+        - "-c"
+        - "pwd && ls -ltrh source"
       volumeMounts: # Mount the registry-certs ConfigMap
         - name: registry-config
           mountPath: /tekton/home/.docker/

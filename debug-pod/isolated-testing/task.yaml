@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  name: test-ssh-clone
+spec:
+  serviceAccountName: tekton-sa
+  taskSpec:
+    steps:
+      - name: test-clone
+        image: alpine/git
+        script: |
+          #!/bin/sh
+          mkdir -p ~/.ssh
+          cp /tekton/creds/ssh/ssh-privatekey ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          git clone git@github.com:ECHagedorn/devops-hq-eh.git

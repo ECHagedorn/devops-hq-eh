@@ -1,21 +1,25 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: build-debug-pod-run-001 # Tekton will append a unique suffix
+  name: build-debug-pod-run-manual-001
   namespace: tekton-pipelines
 spec:
   pipelineRef:
-    name: build-debug-pod-pipeline # Reference to our Pipeline
-  serviceAccountName: tekton-sa # Use the ServiceAccount we created earlier
+    name: build-debug-pod-pipeline
+  serviceAccountName: tekton-sa
+  params: 
+    - name: IMAGE_NAME
+      value: registry.default.svc.cluster.local:5000/debug-pod:latest
+    - name: repo-url
+      value: 'git@github.com:ECHagedorn/devops-hq-eh.git'
+    - name: 'repo-revision'
+      value: master 
   workspaces:
-    - name: shared-workspace # This matches the workspace name in the Pipeline
-      volumeClaimTemplate: # Tekton will provision a PVC for this workspace
+    - name: shared-workspace
+      volumeClaimTemplate:
         spec:
           accessModes:
             - ReadWriteOnce
           resources:
             requests:
-              storage: 1Gi # Allocate 1GB for the workspace (enough for source code and build artifacts)
-  params:
-    - name: IMAGE_NAME # Ensure this matches a param defined in the Pipeline (if any, though here it's passed directly to Task)
-      value: localhost:5000/debug-pod:latest
+              storage: 1Gi
