@@ -1,0 +1,46 @@
+# Ignore common operating system files
+.DS_Store
+Thumbs.db
+
+# Ignore Python bytecode and virtual environments
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# Ignore Go build artifacts
+*.exe
+*.dll
+*.so
+*.dylib
+*.o
+*.a
+# Go build cache
+go.mod.bak
+go.sum.bak
+
+# Ignore Terraform files
+.terraform/
+*.tfplan
+*.tfstate
+*.tfstate.backup
+crash.log
+.terraform.lock.hcl
+
+# Ignore Ansible temporary files and sensitive data (e.g., vault files if not properly handled)
+*.retry
+*.vault # Be careful with this; prefer encrypted vaults managed by Ansible Vault
+
+# Ignore K3s/Kubernetes related files
+kubeconfig
+.kube/config # If you store your main kubeconfig here (though we copy it from /etc/rancher/k3s)
+
+# General build output
+bin/
+build/
+dist/
+
+# Editor/IDE specific files
+.vscode/ # VS Code workspace/settings (if specific to *your* environment)
+*.swp # Vim swap files
