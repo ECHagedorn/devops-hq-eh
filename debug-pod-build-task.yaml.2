@@ -1,0 +1,47 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: build-and-push-debug-pod-image
+  namespace: tekton-pipelines # This task will run in the tekton-pipelines namespace
+spec:
+  params:
+    - name: IMAGE_NAME
+      type: string
+      description: Name of the image to build (e.g., localhost:5000/my-debug-pod)
+    - name: DOCKERFILE_PATH
+      type: string
+      description: Path to the Dockerfile within the source context
+      default: ./Dockerfile # Our Dockerfile is here relative to project root
+    - name: CONTEXT_PATH
+      type: string
+      description: Path to the build context
+      default: ./debug-pod # Use the current project root as context (where Dockerfile and code are)
+    - name: BUILDER_IMAGE
+      type: string
+      description: The Kaniko builder image to use
+      default: gcr.io/kaniko-project/executor:latest # Use a stable Kaniko executor
+  workspaces:
+    - name: source # Workspace to hold the source code (your devops-hq-eh repo)
+  steps:
+    - name: build-and-push
+      image: "$(params.BUILDER_IMAGE)"
+      env:
+        - name: "DOCKER_CONFIG"
+          value: "/tekton/home/.docker/" # Kaniko expects this for config.json
+      command:
+        - /kaniko/executor
+      args:
+        - "--dockerfile=$(params.DOCKERFILE_PATH)"
+        - "--context=$(workspaces.source.path)/$(params.CONTEXT_PATH)"
+        - "--destination=$(params.IMAGE_NAME)"
+        - "--skip-tls-verify=true" # Necessary for insecure local registry
+        - "--insecure-registry=$(params.IMAGE_NAME)" # Also specify target as insecure
+        - "--insecure-registry=localhost:5000" # Explicitly mark localhost:5000 as insecure
+        - "--ignore-path=/tekton/home/.docker/config.json" # Ignore config map mounted
+      volumeMounts: # Mount the registry-certs ConfigMap
+        - name: registry-config
+          mountPath: /tekton/home/.docker/
+  volumes:
+    - name: registry-config
+      configMap:
+        name: registry-certs # Reference the ConfigMap we created earlier

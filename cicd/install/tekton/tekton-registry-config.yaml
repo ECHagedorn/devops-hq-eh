@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: registry-certs
+  namespace: tekton-pipelines # Important: This ConfigMap must be in the tekton-pipelines namespace
+data:
+  config.json: |
+    {
+      "insecure-registries": [
+        "localhost:5000"
+      ]
+    }

@@ -1,0 +1,44 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: build-debug-pod-pipeline
+  namespace: tekton-pipelines
+spec:
+  params: # <--- NEW SECTION: Define parameters for the Git repo URL and revision
+    - name: repo-url
+      type: string
+      description: The Git repository URL to clone
+    - name: repo-revision
+      type: string
+      description: The Git revision (branch, tag, commit) to clone
+      default: main # Default to 'main' if not specified in PipelineRun
+  workspaces:
+    - name: shared-workspace # This workspace will hold our source code
+  tasks:
+    - name: clone-source
+      taskRef:
+        name: git-clone
+      params: # <--- Pass params directly to git-clone task from Pipeline params
+        - name: url
+          value: $(params.repo-url) # Get URL from Pipeline's 'repo-url' param
+        - name: revision
+          value: $(params.repo-revision) # Get revision from Pipeline's 'repo-revision' param
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+
+    - name: build-debug-pod-image
+      taskRef:
+        name: build-and-push-debug-pod-image
+      runAfter:
+        - clone-source
+      params:
+        - name: IMAGE_NAME
+          value: localhost:5000/debug-pod:latest
+        - name: DOCKERFILE_PATH
+          value: Dockerfile
+        - name: CONTEXT_PATH
+          value: debug-pod
+      workspaces:
+        - name: source
+          workspace: shared-workspace
