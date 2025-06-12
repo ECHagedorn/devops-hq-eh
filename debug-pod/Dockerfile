@@ -34,7 +34,6 @@ RUN apk update && \
     htop \
     tree \
     less \
-    more \
     tar \
     gzip \
     zip \
