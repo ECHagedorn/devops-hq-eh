@@ -1,0 +1,15 @@
+replicaCount: 1
+deploymentName: debug-pod
+
+image:
+  repository: 192.168.2.11:32594/debug-pod
+  pullPolicy: Always
+  tag: "latest"
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: false

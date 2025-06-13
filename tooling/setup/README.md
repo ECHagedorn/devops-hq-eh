@@ -35,6 +35,17 @@
 #          -rw-r--r-- 1 root root  166 Jun 12 14:51 registries.yaml
 #          -rw------- 1 root root 2.9K Jun 12 14:51 k3s.yaml
 
+
+#   To install kubectx, kubens and fzf do the following
+
+#   git clone https://github.com/ahmetb/kubectx.git
+#   mv kubectx/ /opt/kubectx/
+#   sudo mv kubectx/ /opt/kubectx/
+#   sudo ln -s /opt/kubectx/kubectx /usr/local/bin/kubectx
+#   sudo ln -s /opt/kubectx/kubens /usr/local/bin/kubens
+#   sudo apt install fzf
+
+
 ## CONTAINERS, IMAGES AND REGISTRIES
 #  ---------------------------------
 # 

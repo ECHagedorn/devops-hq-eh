@@ -192,6 +192,11 @@ echo "Go version:"
 go version
 check_command "go version check"
 
+# Step 9: install helm
+echo "9. Installing Helm..."
+sudo snap install helm --classic
+
+
 echo "--- DevOps Tools Installation Complete ---"
 echo "Verification:"
 echo "k3s nodes: " && kubectl get nodes

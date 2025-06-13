@@ -34,7 +34,7 @@ spec:
         - clone-source
       params:
         - name: IMAGE_NAME
-          value: registry.default.svc.cluster.local:5000/debug-pod:latest
+          value: 192.168.2.11:32594/debug-pod:latest
         - name: DOCKERFILE_PATH
           value: source/services/debug-pod/Dockerfile
         - name: CONTEXT_PATH

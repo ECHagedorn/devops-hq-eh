@@ -9,7 +9,7 @@ spec:
   serviceAccountName: tekton-sa
   params: 
     - name: IMAGE_NAME
-      value: registry.default.svc.cluster.local:5000/debug-pod:latest
+      value: 192.168.2.11:32594/debug-pod:latest
     - name: repo-url
       value: 'git@github.com:ECHagedorn/devops-hq-eh.git'
     - name: 'repo-revision'
