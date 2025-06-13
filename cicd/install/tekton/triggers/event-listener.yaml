@@ -1,0 +1,13 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: git-trigger-listener
+  namespace: tekton-pipelines
+spec:
+  serviceAccountName: tekton-triggers-controller # Ensure the default SA has permissions to create PipelineRuns and access Secrets if needed
+    #serviceType: NodePort
+  triggers:
+    - bindings:
+        - ref: git-push-trigger-binding # Reference the TriggerBinding
+      template:
+        ref: debug-pod-pipeline-trigger-template # Reference the TriggerTemplate

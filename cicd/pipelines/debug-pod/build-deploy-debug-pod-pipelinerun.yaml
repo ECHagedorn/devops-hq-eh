@@ -1,11 +1,11 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: build-debug-pod-run-manual-001
+  name: build-deploy-debug-pod-run-manual-001
   namespace: tekton-pipelines
 spec:
   pipelineRef:
-    name: build-debug-pod-pipeline
+    name: build-deploy-debug-pod-pipeline
   serviceAccountName: tekton-sa
   params: 
     - name: IMAGE_NAME

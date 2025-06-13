@@ -1,0 +1,13 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: git-push-trigger-binding
+  namespace: tekton-pipelines
+spec:
+  params:
+    - name: git-repo-url
+      value: $(body.repository.url) # Extracts the repository URL
+    - name: git-revision
+      value: $(body.ref) # Extracts the Git ref (e.g., 'refs/heads/main')
+    - name: git-commit-sha
+      value: $(body.after) # Extracts the full commit SHA

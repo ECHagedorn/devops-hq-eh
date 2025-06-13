@@ -26,7 +26,6 @@ RUN apk update && \
     net-tools \
     bind-tools \
     nmap \
-    socat \
     tcpdump \
     ncurses \
     lsof \

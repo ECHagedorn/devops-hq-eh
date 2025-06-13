@@ -1,0 +1,34 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: event-listener-role
+  namespace: tekton-pipelines
+rules:
+  - apiGroups: ["triggers.tekton.dev"]
+    resources: ["*"] # Add taskruns if your triggers create them
+    verbs: ["*"]
+  - apiGroups: [""] # The empty string "" specifies the core API group
+    resources: ["pods", "pods/log"] # If your EventListener needs to access pod logs (e.g., for debugging)
+    verbs: ["get", "list"]
+  - apiGroups: ["tekton.dev"]
+    resources: ["*"] # Add taskruns if your triggers create them
+    verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: event-listener-role-binding
+  namespace: tekton-pipelines
+subjects:
+  - kind: ServiceAccount
+    name: default # The default ServiceAccount in the tekton-pipelines namespace
+    namespace: tekton-pipelines
+  - kind: ServiceAccount
+    name: tekton-triggers-controller # The default ServiceAccount in the tekton-pipelines namespace
+    namespace: tekton-pipelines
+roleRef:
+  kind: Role
+  name: event-listener-role
+  apiGroup: rbac.authorization.k8s.io
+
+
