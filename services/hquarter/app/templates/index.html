@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>HqUARTER - DevOps Portfolio</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>HqUARTER - DevOps Portfolio</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <div class="hero-container">
-        <div class="hero-content">
-            <p class="subtitle">WELCOME TO HQUARTER</p>
-            <h1 class="title">DevOps Engineer Portfolio</h1>
-            <div class="cta-buttons">
-                <a href="#projects" class="btn">Start a Project</a>
-                <a href="#about" class="btn">More About Me</a>
-            </div>
-        </div>
-        <div class="scroll-down">↓ SCROLL DOWN</div>
+
+  <div class="hero-container">
+    <div class="hero-content">
+      <p class="subtitle">WELCOME TO HqUARTER</p>
+      <h1 class="title">DevOps Engineer Portfolio</h1>
+      <div class="cta-buttons">
+        <a href="#projects" class="btn">Start a Project</a>
+        <a href="#about" class="btn">More About Me</a>
+      </div>
     </div>
+    <div class="scroll-down">↓ SCROLL DOWN</div>
+  </div>
+
+  <!-- Gear background -->
+  <img src="{{ url_for('static', filename='images/gear.svg') }}" class="gear-bg" alt="gear" />
+
 </body>
 </html>

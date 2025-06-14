@@ -14,6 +14,7 @@ body {
     height: 100vh;
     background: linear-gradient(to right, #0f0f0f, #1a1a1a);
     padding-top: 120px;
+    overflow: hidden;
 }
 
 .subtitle {
@@ -53,4 +54,19 @@ body {
     bottom: 30px;
     font-size: 0.8rem;
     color: #4caf50;
+}
+
+.gear-bg {
+    position: fixed;
+    bottom: -90px;
+    right: -20px;
+    width: 400px;
+    opacity: 1; /* temporarily set to 1 */
+    background: none; /* remove test background */
+    animation: spin 20s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
