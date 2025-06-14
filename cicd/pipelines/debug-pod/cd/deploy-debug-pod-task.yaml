@@ -75,6 +75,7 @@ spec:
         echo "Release Name: $(params.release-name)"
         echo "Target Namespace: $(params.target-namespace)"
         echo "Image URL: $(params.image-url)"
+        IMAGE_URL=$(echo "$(params.image-url)")
 
         # Perform Helm upgrade --install
         # --atomic: if upgrade fails, rollback to the previous good state.
@@ -86,8 +87,8 @@ spec:
           "$(params.release-name)" \
           "$CHART_PATH" \
           --namespace "$(params.target-namespace)" \
-          --set image.repository=$(echo "$(params.image-url)" | cut -d: -f1) \
-          --set image.tag=$(echo "$(params.image-url)" | cut -d: -f2) \
+          --set image.repository="$(echo "${IMAGE_URL%:*}")" \
+          --set image.tag=$(echo "${IMAGE_URL##*:}") \
           --create-namespace \
           --atomic \
           --wait \
