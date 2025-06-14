@@ -18,7 +18,7 @@ spec:
     - name: dockerfile-path
       type: string
       description: Path to Dockerfile
-      default: Dockerfile
+      default: path/to/Dockerfile
     - name: context-path
       type: string
       description: Build context path
@@ -26,15 +26,15 @@ spec:
     - name: chart-relative-path
       type: string
       description: Path to Helm chart
-      default: charts/debug-pod
+      default: path/to/helm/service-name
     - name: release-name
       type: string
       description: Helm release name
-      default: debug-pod
+      default: service-name
     - name: target-namespace
       type: string
       description: Namespace to deploy to
-      default: devops-hq-eh
+      default: namespace
   workspaces:
     - name: shared-workspace
   tasks:
@@ -83,4 +83,3 @@ spec:
           value: $(params.target-namespace)
         - name: image-url
           value: $(params.image-url)
-

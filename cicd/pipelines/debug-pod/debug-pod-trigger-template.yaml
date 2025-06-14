@@ -2,7 +2,7 @@
 apiVersion: triggers.tekton.dev/v1beta1
 kind: TriggerTemplate
 metadata:
-  name: microservice-pipeline-trigger-template
+  name: debug-pod-trigger-template
   namespace: tekton-pipelines
 spec:
   params:
@@ -40,7 +40,7 @@ spec:
     - apiVersion: tekton.dev/v1
       kind: PipelineRun
       metadata:
-        generateName: build-deploy-microservice-pipeline-run-
+        generateName: build-deploy-debug-pipeline-run-
         namespace: tekton-pipelines
       spec:
         pipelineRef:

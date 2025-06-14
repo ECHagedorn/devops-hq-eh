@@ -1,0 +1,1 @@
+# hquarter template definitions

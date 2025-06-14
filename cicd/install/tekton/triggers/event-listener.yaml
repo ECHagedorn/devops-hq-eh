@@ -6,14 +6,25 @@ metadata:
 spec:
   serviceAccountName: tekton-triggers-controller
   triggers:
-    - name: git-push-master
+    - name: build-push-deploy-debug-pod
       interceptors:
         - ref:
             name: cel
           params:
             - name: filter
-              value: "body.ref == 'refs/heads/master'"
+              value: "body.ref == 'refs/heads/master' && body.head_commit.modified.exists(x, x.startsWith('services/debug-pod/'))"
       bindings:
         - ref: git-push-trigger-binding
       template:
-        ref: microservice-pipeline-trigger-template
+        ref: debug-pod-trigger-template
+    - name: build-push-deploy-hquarter
+      interceptors:
+        - ref:
+            name: cel
+          params:
+            - name: filter
+              value: "body.ref == 'refs/heads/master' && body.head_commit.modified.exists(x, x.startsWith('services/hquarter/'))"
+      bindings:
+        - ref: git-push-trigger-binding
+      template:
+        ref: hquarter-trigger-template
