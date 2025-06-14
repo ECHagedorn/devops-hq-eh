@@ -1,0 +1,48 @@
+# ~/devops-hq-eh/tekton/04-trigger-template.yaml
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: debug-pod-pipeline-trigger-template
+  namespace: tekton-pipelines
+spec:
+  params:
+    - name: repo-url
+      description: The URL of the Git repository
+    - name: repo-revision
+      description: The Git revision (branch, tag, or commit SHA)
+    - name: git-commit-sha # The full commit SHA, useful for tagging the image
+      description: The full commit SHA of the pushed code
+    - name: pipeline-name
+      description: The name of the pipeline to trigger
+      default: build-deploy-debug-pod-pipeline # Your existing pipeline name
+    - name: image-url
+      description: image URL to build
+      default: "192.168.2.11:32594/debug-pod"
+
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1
+      kind: PipelineRun
+      metadata:
+        generateName: build-deploy-debug-pod-pipeline-run-
+        namespace: tekton-pipelines # The namespace where your pipeline exists
+      spec:
+        pipelineRef:
+          name: build-deploy-debug-pod-pipeline
+        workspaces:
+          - name: shared-workspace
+            volumeClaimTemplate: # Dynamically create a PVC for each PipelineRun
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 1Gi # Adjust storage as needed
+        params:
+          - name: repo-url
+            value: "git@github.com:ECHagedorn/devops-hq-eh.git"
+          - name: repo-revision
+            value: "master"
+          - name: git-commit-sha
+            value: $(tt.params.git-commit-sha)
+          - name: image-url
+            value: "192.168.2.11:32594/debug-pod:$(tt.params.git-commit-sha)"
