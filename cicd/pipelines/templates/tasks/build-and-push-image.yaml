@@ -1,0 +1,47 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: build-and-push-image
+  namespace: tekton-pipelines
+spec:
+  params:
+    - name: DOCKERFILE_PATH
+      type: string
+      description: Path to the Dockerfile within the source context
+      default: Dockerfile
+    - name: CONTEXT_PATH
+      type: string
+      description: Path to the build context
+      default: .
+    - name: BUILDER_IMAGE
+      type: string
+      description: The Kaniko builder image to use
+      default: gcr.io/kaniko-project/executor:latest
+    - name: image-url
+      type: string
+      description: The full image name and tag for the destination
+  workspaces:
+    - name: source
+  steps:
+    - name: build-and-push
+      image: "$(params.BUILDER_IMAGE)"
+      env:
+        - name: "DOCKER_CONFIG"
+          value: "/tekton/home/.docker/"
+      command:
+        - /kaniko/executor
+      args:
+        - "--dockerfile=$(params.DOCKERFILE_PATH)"
+        - "--context=$(workspaces.source.path)/$(params.CONTEXT_PATH)"
+        - "--destination=$(params.image-url)"
+        - "--skip-tls-verify=true"
+        - "--insecure-registry=$(params.image-url)"
+        - "--insecure-registry=localhost:5000"
+        - "--ignore-path=/tekton/home/.docker/config.json"
+      volumeMounts:
+        - name: registry-config
+          mountPath: /tekton/home/.docker/
+  volumes:
+    - name: registry-config
+      configMap:
+        name: registry-certs

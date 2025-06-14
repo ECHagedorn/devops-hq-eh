@@ -1,0 +1,85 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: build-deploy-microservice-pipeline
+  namespace: tekton-pipelines
+spec:
+  params:
+    - name: repo-url
+      type: string
+      description: The Git repository URL to clone
+    - name: repo-revision
+      type: string
+      description: The Git revision (branch, tag, commit) to clone
+      default: master
+    - name: image-url
+      type: string
+      description: The image to build and deploy
+    - name: dockerfile-path
+      type: string
+      description: Path to Dockerfile
+      default: Dockerfile
+    - name: context-path
+      type: string
+      description: Build context path
+      default: .
+    - name: chart-relative-path
+      type: string
+      description: Path to Helm chart
+      default: charts/my-service
+    - name: release-name
+      type: string
+      description: Helm release name
+      default: my-service
+    - name: target-namespace
+      type: string
+      description: Namespace to deploy to
+      default: default
+  workspaces:
+    - name: shared-workspace
+  tasks:
+    - name: clone-source
+      taskRef:
+        name: git-clone
+      params:
+        - name: url
+          value: $(params.repo-url)
+        - name: revision
+          value: $(params.repo-revision)
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+
+    - name: build-image
+      taskRef:
+        name: build-and-push-image
+      runAfter:
+        - clone-source
+      params:
+        - name: DOCKERFILE_PATH
+          value: $(params.dockerfile-path)
+        - name: CONTEXT_PATH
+          value: $(params.context-path)
+        - name: image-url
+          value: $(params.image-url)
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+
+    - name: deploy-application
+      taskRef:
+        name: helm-deploy
+      runAfter:
+        - build-image
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+      params:
+        - name: chart-relative-path
+          value: $(params.chart-relative-path)
+        - name: release-name
+          value: $(params.release-name)
+        - name: target-namespace
+          value: $(params.target-namespace)
+        - name: image-url
+          value: $(params.image-url)

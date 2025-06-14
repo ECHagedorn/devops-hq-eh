@@ -1,0 +1,72 @@
+# ~/devops-hq-eh/tekton/04-trigger-template.yaml
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: microservice-pipeline-trigger-template
+  namespace: tekton-pipelines
+spec:
+  params:
+    - name: repo-url
+      description: The URL of the Git repository
+    - name: repo-revision
+      description: The Git revision (branch, tag, or commit SHA)
+      default: master
+    - name: git-commit-sha
+      description: The full commit SHA of the pushed code
+    - name: pipeline-name
+      description: The name of the pipeline to trigger
+      default: build-deploy-microservice-pipeline
+    - name: image-url
+      description: image URL to build
+      default: "192.168.2.11:32594/debug-pod"
+    - name: dockerfile-path
+      description: Path to Dockerfile
+      default: Dockerfile
+    - name: context-path
+      description: Build context path
+      default: .
+    - name: chart-relative-path
+      description: Path to Helm chart
+      default: charts/debug-pod
+    - name: release-name
+      description: Helm release name
+      default: debug-pod
+    - name: target-namespace
+      description: Namespace to deploy to
+      default: devops-hq-eh
+
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1
+      kind: PipelineRun
+      metadata:
+        generateName: build-deploy-microservice-pipeline-run-
+        namespace: tekton-pipelines
+      spec:
+        pipelineRef:
+          name: $(tt.params.pipeline-name)
+        workspaces:
+          - name: shared-workspace
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 1Gi
+        params:
+          - name: repo-url
+            value: $(tt.params.repo-url)
+          - name: repo-revision
+            value: $(tt.params.repo-revision)
+          - name: image-url
+            value: "$(tt.params.image-url):$(tt.params.git-commit-sha)"
+          - name: dockerfile-path
+            value: $(tt.params.dockerfile-path)
+          - name: context-path
+            value: $(tt.params.context-path)
+          - name: chart-relative-path
+            value: $(tt.params.chart-relative-path)
+          - name: release-name
+            value: $(tt.params.release-name)
+          - name: target-namespace
+            value: $(tt.params.target-namespace)

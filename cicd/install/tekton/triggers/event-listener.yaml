@@ -11,3 +11,7 @@ spec:
         - ref: git-push-trigger-binding # Reference the TriggerBinding
       template:
         ref: debug-pod-pipeline-trigger-template # Reference the TriggerTemplate
+    - bindings:
+        - ref: git-push-trigger-binding # Reference the TriggerBinding
+      template:
+        ref: microservice-pipeline-trigger-template # Reference the TriggerTemplate

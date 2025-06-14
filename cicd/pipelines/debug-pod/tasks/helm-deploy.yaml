@@ -1,0 +1,58 @@
+# ~/devops-hq-eh/tekton/02-helm-deploy-task.yaml
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: helm-deploy
+  namespace: tekton-pipelines
+  labels:
+    app.kubernetes.io/version: "0.1"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.17.0"
+    tekton.dev/displayName: "Helm Deploy"
+spec:
+  workspaces:
+    - name: source
+      description: The workspace that contains the source code and Helm chart.
+  params:
+    - name: chart-relative-path
+      description: Path to the Helm chart directory relative to the workspace root.
+      type: string
+      default: charts/debug-pod
+    - name: release-name
+      description: Name of the Helm release.
+      type: string
+      default: debug-pod
+    - name: target-namespace
+      description: Kubernetes namespace to deploy to.
+      type: string
+      default: devops-hq-eh
+    - name: image-url
+      type: string
+      description: The full image name and tag for the destination
+  steps:
+    - name: deploy-helm-chart
+      image: alpine/helm:3.14.0
+      env:
+        - name: KUBECONFIG
+          value: /tekton/home/.kube/config
+      workingDir: $(workspaces.source.path)
+      script: |
+        #!/usr/bin/env bash
+        set -xe
+
+        CHART_PATH="$(params.chart-relative-path)"
+        if [ ! -d "$CHART_PATH" ]; then
+          echo "Error: Helm chart directory not found at $CHART_PATH"
+          exit 1
+        fi
+        IMAGE_URL=$(echo "$(params.image-url)")
+        helm upgrade --install \
+          "$(params.release-name)" \
+          "$CHART_PATH" \
+          --namespace "$(params.target-namespace)" \
+          --set image.repository="$(echo "${IMAGE_URL%:*}")" \
+          --set image.tag=$(echo "${IMAGE_URL##*:}") \
+          --create-namespace \
+          --atomic \
+          --wait \
+          --timeout 5m
