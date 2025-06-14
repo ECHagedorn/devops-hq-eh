@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>HQuarter - DevOps Portfolio</title>
+    <meta charset="UTF-8">
+    <title>HQuarter - DevOps Portfolio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Welcome to HQuarter</h1>
-  <p>This is my self-hosted DevOps portfolio app, powered by Flask, Tekton, and K3s.</p>
+    <div class="hero-container">
+        <div class="hero-content">
+            <p class="subtitle">WELCOME TO HQUARTER</p>
+            <h1 class="title">DevOps Engineer Portfolio</h1>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn">Start a Project</a>
+                <a href="#about" class="btn">More About Me</a>
+            </div>
+        </div>
+        <div class="scroll-down">↓ SCROLL DOWN</div>
+    </div>
 </body>
 </html>
-
