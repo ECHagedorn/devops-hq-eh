@@ -62,9 +62,9 @@ spec:
           - name: image-url
             value: "192.168.2.11:32594/hquarter:$(tt.params.git-commit-sha)"
           - name: dockerfile-path
-            value: services/hquarter/Dockerfile
+            value: Dockerfile
           - name: context-path
-            value: .
+            value: services/hquarter
           - name: chart-relative-path
             value: manifests/helm/hquarter
           - name: release-name

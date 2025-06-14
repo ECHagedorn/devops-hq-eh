@@ -1,5 +1,6 @@
 replicaCount: 1
 deploymentName: hquarter
+namespace: devops-hq-eh
 
 image:
   repository: 192.168.2.11:32594/hquarter
