@@ -43,7 +43,7 @@ spec:
         namespace: tekton-pipelines
       spec:
         pipelineRef:
-          name: $(tt.params.pipeline-name)
+          name: $(params.pipeline-name)
         workspaces:
           - name: shared-workspace
             volumeClaimTemplate:
@@ -55,18 +55,18 @@ spec:
                     storage: 1Gi
         params:
           - name: repo-url
-            value: $(tt.params.repo-url)
+            value: $(params.repo-url)
           - name: repo-revision
-            value: $(tt.params.repo-revision)
+            value: $(params.repo-revision)
           - name: image-url
-            value: "$(tt.params.image-url):$(tt.params.git-commit-sha)"
+            value: "$(params.image-url):$(params.git-commit-sha)"
           - name: dockerfile-path
-            value: $(tt.params.dockerfile-path)
+            value: $(params.dockerfile-path)
           - name: context-path
-            value: $(tt.params.context-path)
+            value: $(params.context-path)
           - name: chart-relative-path
-            value: $(tt.params.chart-relative-path)
+            value: $(params.chart-relative-path)
           - name: release-name
-            value: $(tt.params.release-name)
+            value: $(params.release-name)
           - name: target-namespace
-            value: $(tt.params.target-namespace)
+            value: $(params.target-namespace)
