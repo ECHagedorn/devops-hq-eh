@@ -1,0 +1,19 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: git-push-event-listener
+  namespace: tekton-pipelines
+spec:
+  serviceAccountName: tekton-triggers-controller
+  triggers:
+    - name: git-push-master
+      interceptors:
+        - ref:
+            name: cel
+          params:
+            - name: filter
+              value: "body.ref == 'refs/heads/master'"
+      bindings:
+        - ref: git-push-trigger-binding
+      template:
+        ref: microservice-pipeline-trigger-template

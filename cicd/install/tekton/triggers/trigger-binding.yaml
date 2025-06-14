@@ -5,9 +5,9 @@ metadata:
   namespace: tekton-pipelines
 spec:
   params:
-    - name: git-repo-url
+    - name: repo-url
       value: $(body.repository.url) # Extracts the repository URL
-    - name: git-revision
+    - name: repo-revision
       value: $(body.ref) # Extracts the Git ref (e.g., 'refs/heads/main')
     - name: git-commit-sha
       value: $(body.after) # Extracts the full commit SHA

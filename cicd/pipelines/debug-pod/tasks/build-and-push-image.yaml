@@ -1,14 +1,14 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: build-and-push-debug-pod-image
-  namespace: tekton-pipelines # This task will run in the tekton-pipelines namespace
+  name: build-and-push-image
+  namespace: tekton-pipelines
 spec:
   params:
     - name: DOCKERFILE_PATH
       type: string
       description: Path to the Dockerfile within the source context
-      default: source/services/debug-pod/Dockerfile 
+      default: Dockerfile
     - name: CONTEXT_PATH
       type: string
       description: Path to the build context
@@ -16,32 +16,32 @@ spec:
     - name: BUILDER_IMAGE
       type: string
       description: The Kaniko builder image to use
-      default: gcr.io/kaniko-project/executor:latest # Use a stable Kaniko executor
-    - name: image-url # <-- This is the param the Task defines
+      default: gcr.io/kaniko-project/executor:latest
+    - name: image-url
       type: string
       description: The full image name and tag for the destination
   workspaces:
-    - name: source # Workspace to hold the source code (your devops-hq-eh repo)
+    - name: source
   steps:
     - name: build-and-push
       image: "$(params.BUILDER_IMAGE)"
       env:
         - name: "DOCKER_CONFIG"
-          value: "/tekton/home/.docker/" # Kaniko expects this for config.json
+          value: "/tekton/home/.docker/"
       command:
         - /kaniko/executor
       args:
         - "--dockerfile=$(params.DOCKERFILE_PATH)"
         - "--context=$(workspaces.source.path)/$(params.CONTEXT_PATH)"
         - "--destination=$(params.image-url)"
-        - "--skip-tls-verify=true" # Necessary for insecure local registry
-        - "--insecure-registry=$(params.image-url)" # Also specify target as insecure
-        - "--insecure-registry=localhost:5000" # Explicitly mark localhost:5000 as insecure
-        - "--ignore-path=/tekton/home/.docker/config.json" # Ignore config map mounted
-      volumeMounts: # Mount the registry-certs ConfigMap
+        - "--skip-tls-verify=true"
+        - "--insecure-registry=$(params.image-url)"
+        - "--insecure-registry=localhost:5000"
+        - "--ignore-path=/tekton/home/.docker/config.json"
+      volumeMounts:
         - name: registry-config
           mountPath: /tekton/home/.docker/
   volumes:
     - name: registry-config
       configMap:
-        name: registry-certs # Reference the ConfigMap we created earlier
+        name: registry-certs
