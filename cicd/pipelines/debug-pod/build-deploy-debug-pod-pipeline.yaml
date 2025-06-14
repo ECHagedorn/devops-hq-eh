@@ -38,14 +38,12 @@ spec:
       runAfter:
         - clone-source
       params:
-        # - name: IMAGE_NAME
-        #   value: $(params.image-url)
         - name: DOCKERFILE_PATH
           value: source/services/debug-pod/Dockerfile
         - name: CONTEXT_PATH
           value: .
-        - name: image-url # <-- This is the param the Task expects
-          value: $(params.image-to-deploy)
+        - name: image-url
+          value: $(params.image-url)
       workspaces:
         - name: source
           workspace: shared-workspace

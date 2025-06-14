@@ -15,8 +15,6 @@ spec:
     - name: pipeline-name
       description: The name of the pipeline to trigger
       default: build-deploy-debug-pod-pipeline # Your existing pipeline name
-    - name: image-to-deploy
-      description: image URL to build
     - name: image-url
       description: image URL to build 
 
@@ -45,9 +43,5 @@ spec:
             value: "master"
           - name: git-commit-sha
             value: $(tt.params.git-commit-sha)
-          - name: image-url # Construct the full image URL with the commit SHA as the tag
-            value: "192.168.2.11:32594/debug-pod:$(tt.params.git-commit-sha)" # IMPORTANT: Ensure this matches your registry and repo name
-          - name: image-to-deploy
-            value: "192.168.2.11:32594/debug-pod:$(tt.params.git-commit-sha)"
           - name: image-url
             value: "192.168.2.11:32594/debug-pod:$(tt.params.git-commit-sha)"
