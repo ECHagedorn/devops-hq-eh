@@ -25,3 +25,4 @@
 6. *./cloudOps*:              Directory for cloud resourcing, and automation scripts
 
 7. *./docs*:                  Feel free to write a journal of lessons learned and experiences you've encountered
+
