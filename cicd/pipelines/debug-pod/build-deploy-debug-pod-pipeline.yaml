@@ -14,9 +14,6 @@ spec:
       type: string
       description: The Git revision (branch, tag, commit) to clone
       default: master
-    - name: image-to-deploy # <-- This param is passed from the PipelineRun
-      type: string
-      description: The full image name and tag to build and push
   workspaces:
     - name: shared-workspace 
   tasks:
