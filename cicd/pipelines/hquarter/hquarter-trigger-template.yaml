@@ -40,7 +40,7 @@ spec:
     - apiVersion: tekton.dev/v1
       kind: PipelineRun
       metadata:
-        generateName: build-deploy-debug-pipeline-run-
+        generateName: build-deploy-hquarter-pipeline-run-
         namespace: tekton-pipelines
       spec:
         pipelineRef:
