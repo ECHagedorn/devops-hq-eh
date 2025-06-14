@@ -8,12 +8,12 @@ body {
 .hero-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     text-align: center;
     height: 100vh;
     background: linear-gradient(to right, #0f0f0f, #1a1a1a);
-    padding: 0 20px;
+    padding-top: 120px;
 }
 
 .subtitle {
