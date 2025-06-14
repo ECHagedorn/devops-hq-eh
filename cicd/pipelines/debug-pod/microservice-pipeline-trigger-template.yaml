@@ -8,6 +8,7 @@ spec:
   params:
     - name: repo-url
       description: The URL of the Git repository
+      default: 'git@github.com:ECHagedorn/devops-hq-eh.git'
     - name: repo-revision
       description: The Git revision (branch, tag, or commit SHA)
       default: master
@@ -55,18 +56,18 @@ spec:
                     storage: 1Gi
         params:
           - name: repo-url
-            value: $(params.repo-url)
+            value: 'git@github.com:ECHagedorn/devops-hq-eh.git'
           - name: repo-revision
-            value: $(params.repo-revision)
+            value: 'master'
           - name: image-url
-            value: "$(params.image-url):$(params.git-commit-sha)"
+            value: "192.168.2.11:32594/debug-pod:$(tt.params.git-commit-sha)"
           - name: dockerfile-path
-            value: $(params.dockerfile-path)
+            value: services/debug-pod/Dockerfile
           - name: context-path
-            value: $(params.context-path)
+            value: .
           - name: chart-relative-path
-            value: $(params.chart-relative-path)
+            value: manifests/helm/debug-pod
           - name: release-name
-            value: $(params.release-name)
+            value: debug-pod
           - name: target-namespace
-            value: $(params.target-namespace)
+            value: devops-hq-eh
