@@ -16,7 +16,11 @@ service:
     #nodePort: 30080
 
 ingress:
-  enabled: false
+  enabled: true
+  name: hquarter-ingress
+  host: hquarter.app
+  tlsSecret: hquarter-tls
+  clusterIssuer: letsencrypt-prod
 
 serviceAccount:
   # If set, use this value as serviceAccount name, otherwise defaults to <deploymentName>-sa

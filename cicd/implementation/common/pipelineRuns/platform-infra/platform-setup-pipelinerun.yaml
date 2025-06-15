@@ -13,6 +13,4 @@ spec:
       value: 4.10.0
   workspaces:
     - name: kubeconfig-dir
-      persistentVolumeClaim:
-        claimName: kubeconfig-pvc
-  timeout: "15m"
+      emptyDir: {}

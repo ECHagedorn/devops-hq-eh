@@ -44,7 +44,7 @@ Your organization and logic are **well thought out** and align with Tekton best 
 ### 7. **Cloud-Infra Placeholder**
 - You mention `cloud-infra` for future use (config-connector/crossplane/terraform). Make sure this is documented as a roadmap item if not yet implemented.
 
----
+--- initial Findings
 
 ## **Summary Table**
 
@@ -65,3 +65,30 @@ Your organization and logic are **well thought out** and align with Tekton best 
 Your structure is solid and scalable.  
 Focus on reducing duplication, enforcing explicit parameter overrides, and centralizing truly common logic as you add more services.  
 Let me know if you want concrete YAML or script examples for any of these suggestions!
+
+
+Current Findings:
+
+| Area                  | Strength / Flaw | Suggestion                                      |
+|-----------------------|-----------------|-------------------------------------------------|
+| Separation            | ✅              | Good separation of app/infra/cloud              |
+| Parameterization      | ✅              | Reusable pipelines with overrides               |
+| TriggerTemplate Dup   | Flaw             | Consider templating/generation                  |
+| Pipeline Defaults     | ✅              | Use generic/empty defaults                      |
+| Task Duplication      | ✅              | Centralize common tasks                         |
+| RBAC Granularity      | ✅              | Consider per-service RBAC if scaling            |
+| Test Coverage         | Flaw             | Ensure all services have tests                  |
+| Documentation         | Flaw             | Good, keep it up to date                        |
+
+Test Coverage	Flaw	Add tests/ folders for all services
+Documentation	Flaw	Add onboarding steps and cloud-infra TODO
+Conclusion
+Your structure is now robust, generic, and safe for multi-service use.
+You’ve addressed the most critical flaws (pipeline parameter defaults, RBAC granularity, task duplication).
+The remaining items are minor and mostly about scaling, documentation, and consistency.
+
+You’re in excellent shape for current and future growth!
+Let me know if you want help with any of the remaining improvements or want to review a specific TriggerTemplate, onboarding doc, or test structure.
+
+---
+
