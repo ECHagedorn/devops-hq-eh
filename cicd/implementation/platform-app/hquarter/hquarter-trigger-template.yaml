@@ -8,33 +8,33 @@ spec:
   params:
     - name: repo-url
       description: The URL of the Git repository
-      default: 'git@github.com:ECHagedorn/devops-hq-eh.git'
+      default: ''
     - name: repo-revision
       description: The Git revision (branch, tag, or commit SHA)
-      default: remediation-1
+      default: ""
     - name: git-commit-sha
       description: The full commit SHA of the pushed code
     - name: pipeline-name
       description: The name of the pipeline to trigger
-      default: build-deploy-microservice-pipeline
+      default: ""
     - name: image-url
       description: image URL to build
-      default: "192.168.2.11:32594/hquarter"
+      default: ""
     - name: dockerfile-path
       description: Path to Dockerfile
-      default: Dockerfile
+      default: ""
     - name: context-path
       description: Build context path
-      default: .
+      default: ""
     - name: chart-relative-path
       description: Path to Helm chart
-      default: charts/hquarter
+      default: ""
     - name: release-name
       description: Helm release name
-      default: hquarter
+      default: ""
     - name: target-namespace
       description: Namespace to deploy to
-      default: devops-hq-eh
+      default: ""
 
   resourcetemplates:
     - apiVersion: tekton.dev/v1

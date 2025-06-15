@@ -1,5 +1,7 @@
- curl -X POST   -H "Content-Type: application/json"  -d '{
-  "ref": "refs/heads/master",
+#!/bin/bash
+
+curl -X POST   -H "Content-Type: application/json"  -d '{
+  "ref": "refs/heads/remediation-1",
   "before": "a241cd85fba956b5ebbbe9695da9e2a31acca508",
   "after": "1e846f537277496991d755d4ea63e6d90e30702a",
   "head_commit": {
@@ -26,7 +28,7 @@
 
     ],
     "modified": [
-      "services/hquarter/Dockerfile"
+      "manifests/helm/hquarter/README.md"
     ]
   }
 }'  http://192.168.2.11:31621
