@@ -7,6 +7,7 @@
     services* from *platform infrastructure services* -- cicd components are categorized as:
         -   platform-app
         -   platform-infra
+# TO-DO:
         -   cloud-infra ( if config-connector/crossplane will be used or if terraform will be controlled by tekton )
 
     These workloads can be removed from the kubernetes cluster if needed, but while it is running on the cluster it will be managed

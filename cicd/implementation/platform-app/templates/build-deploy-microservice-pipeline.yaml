@@ -8,33 +8,33 @@ spec:
     - name: repo-url
       type: string
       description: The Git repository URL to clone
+    - name: image-url
+      type: string
+      description: The image to build and deploy
     - name: repo-revision
       type: string
       description: The Git revision (branch, tag, commit) to clone
       default: master
-    - name: image-url
-      type: string
-      description: The image to build and deploy
     - name: dockerfile-path
       type: string
       description: Path to Dockerfile
-      default: Dockerfile
+      default: ""
     - name: context-path
       type: string
       description: Build context path
-      default: .
+      default: ""
     - name: chart-relative-path
       type: string
       description: Path to Helm chart
-      default: charts/my-service
+      default: ""
     - name: release-name
       type: string
       description: Helm release name
-      default: my-service
+      default: ""
     - name: target-namespace
       type: string
       description: Namespace to deploy to
-      default: default
+      default: ""
   workspaces:
     - name: shared-workspace
   tasks:

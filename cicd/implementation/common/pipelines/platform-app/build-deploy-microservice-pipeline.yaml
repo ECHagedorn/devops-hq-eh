@@ -18,23 +18,23 @@ spec:
     - name: dockerfile-path
       type: string
       description: Path to Dockerfile
-      default: path/to/Dockerfile
+      default: ""
     - name: context-path
       type: string
       description: Build context path
-      default: .
+      default: ""
     - name: chart-relative-path
       type: string
       description: Path to Helm chart
-      default: path/to/helm/service-name
+      default: ""
     - name: release-name
       type: string
       description: Helm release name
-      default: service-name
+      default: ""
     - name: target-namespace
       type: string
       description: Namespace to deploy to
-      default: namespace
+      default: ""
   workspaces:
     - name: shared-workspace
   tasks:
