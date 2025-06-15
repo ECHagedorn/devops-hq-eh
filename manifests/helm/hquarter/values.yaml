@@ -15,3 +15,7 @@ service:
 
 ingress:
   enabled: false
+
+serviceAccount:
+  # If set, use this value as serviceAccount name, otherwise defaults to <deploymentName>-sa
+  name: ""
