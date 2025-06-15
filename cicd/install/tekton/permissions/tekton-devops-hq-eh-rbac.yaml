@@ -5,7 +5,7 @@ metadata:
   namespace: devops-hq-eh
 rules:
   - apiGroups: [""]
-    resources: ["pods", "services", "services/finalizers", "endpoints", "persistentvolumeclaims", "configmaps", "secrets", "events"]
+    resources: ["pods", "serviceaccounts", "services", "services/finalizers", "endpoints", "persistentvolumeclaims", "configmaps", "secrets", "events"]
     verbs: ["create", "delete", "get", "list", "patch", "update", "watch"]
   - apiGroups: ["apps"]
     resources: ["deployments", "daemonsets", "replicasets", "statefulsets"]

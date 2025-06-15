@@ -1,3 +1,5 @@
+# HqUARTER helm chart
+#
 replicaCount: 1
 deploymentName: hquarter
 namespace: devops-hq-eh
@@ -8,10 +10,14 @@ image:
   tag: "latest"
 
 service:
-  type: NodePort
-  port: 80
+  type: ClusterIP
+  port: 5000
   targetPort: 5000
-  nodePort: 30080
+    #nodePort: 30080
 
 ingress:
   enabled: false
+
+serviceAccount:
+  # If set, use this value as serviceAccount name, otherwise defaults to <deploymentName>-sa
+  name: ""
