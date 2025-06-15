@@ -11,7 +11,7 @@ spec:
       default: 'git@github.com:ECHagedorn/devops-hq-eh.git'
     - name: repo-revision
       description: The Git revision (branch, tag, or commit SHA)
-      default: master
+      default: remediation-1
     - name: git-commit-sha
       description: The full commit SHA of the pushed code
     - name: pipeline-name
