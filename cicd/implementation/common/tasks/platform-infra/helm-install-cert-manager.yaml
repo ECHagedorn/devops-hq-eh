@@ -1,0 +1,29 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: helm-install-cert-manager
+  namespace: tekton-pipelines
+spec:
+  params:
+    - name: chartVersion
+      type: string
+      default: v1.14.3
+  workspaces:
+    - name: kubeconfig-dir
+  steps:
+    - name: install-cert-manager
+      image: alpine/helm:3.14.0
+      script: |
+        #!/bin/sh
+        helm repo add jetstack https://charts.jetstack.io
+        helm repo update
+        helm upgrade --install cert-manager jetstack/cert-manager \
+          --version $(params.chartVersion) \
+          --namespace cert-manager \
+          --create-namespace \
+          --set installCRDs=true \
+          --atomic \
+          --timeout 300s
+      env:
+        - name: KUBECONFIG
+          value: /workspace/kubeconfig-dir/config

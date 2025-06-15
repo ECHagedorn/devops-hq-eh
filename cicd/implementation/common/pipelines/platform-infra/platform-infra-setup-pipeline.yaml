@@ -1,0 +1,47 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: platform-setup-pipeline
+  namespace: tekton-pipelines
+spec:
+  params:
+    - name: certManagerVersion
+      type: string
+      default: v1.14.3
+    - name: ingressVersion
+      type: string
+      default: 4.10.0
+  workspaces:
+    - name: kubeconfig-dir
+  tasks:
+    - name: install-cert-manager
+      taskRef:
+        name: helm-install-cert-manager
+      params:
+        - name: chartVersion
+          value: $(params.certManagerVersion)
+      workspaces:
+        - name: kubeconfig-dir
+          workspace: kubeconfig-dir
+    - name: upgrade-ingress-nginx
+      taskRef:
+        name: helm-upgrade-ingress-nginx
+      params:
+        - name: chartVersion
+          value: $(params.ingressVersion)
+      runAfter:
+        - install-cert-manager
+      workspaces:
+        - name: kubeconfig-dir
+          workspace: kubeconfig-dir
+    - name: install-ingress-nginx-canary
+      taskRef:
+        name: helm-install-ingress-nginx-canary
+      params:
+        - name: chartVersion
+          value: $(params.ingressVersion)
+      runAfter:
+        - upgrade-ingress-nginx
+      workspaces:
+        - name: kubeconfig-dir
+          workspace: kubeconfig-dir

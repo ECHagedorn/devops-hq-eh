@@ -1,0 +1,18 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: run-platform-setup
+  namespace: tekton-pipelines
+spec:
+  pipelineRef:
+    name: platform-setup-pipeline
+  params:
+    - name: certManagerVersion
+      value: v1.14.3
+    - name: ingressVersion
+      value: 4.10.0
+  workspaces:
+    - name: kubeconfig-dir
+      persistentVolumeClaim:
+        claimName: kubeconfig-pvc
+  timeout: "15m"

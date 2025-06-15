@@ -1,0 +1,34 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: helm-upgrade-ingress-nginx
+  namespace: tekton-pipelines
+spec:
+  params:
+    - name: chartVersion
+      type: string
+      default: 4.10.0
+  workspaces:
+    - name: kubeconfig-dir
+  steps:
+    - name: upgrade-ingress-nginx
+      image: alpine/helm:3.14.0
+      script: |
+        #!/bin/sh
+        helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+        helm repo update
+        helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
+          --version $(params.chartVersion) \
+          --namespace ingress-nginx \
+          --create-namespace \
+          --set controller.ingressClassResource.name=nginx \
+          --set controller.ingressClassResource.enabled=true \
+          --set controller.ingressClassResource.default=true \
+          --set controller.service.type=LoadBalancer \
+          --set controller.service.externalTrafficPolicy=Local \
+          --set controller.extraArgs.enable-ssl-passthrough=true \
+          --atomic \
+          --timeout 300s
+      env:
+        - name: KUBECONFIG
+          value: /workspace/kubeconfig-dir/config
