@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block title %}About | Emmanuel Hagedorn{% endblock %}
+{% block content %}
+<section class="about-section">
+    <div class="about-card">
+        <div class="about-profile">
+            <img src="{{ url_for('static', filename='images/gear.svg') }}" alt="DevOps Gear" class="about-avatar">
+            <div class="about-names">
+                <h1>Emmanuel Hagedorn</h1>
+                <h2>DevOps Engineer & Automation Specialist</h2>
+            </div>
+        </div>
+        <div class="about-summary">
+            <p>
+                <span class="about-highlight">I build secure, automated, and scalable infrastructure for modern teams.</span>
+                <br>
+                <span style="font-size:0.97em;">
+                    My expertise spans Kubernetes, CI/CD, cloud automation, and infrastructure-as-code. I leverage AI and automation to deliver robust, production-grade solutions for startups, agencies, and technical founders.
+                </span>
+            </p>
+        </div>
+        <div class="about-links">
+            <a href="https://ca.linkedin.com/in/echagedorn" target="_blank" class="about-link">
+                <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn" class="about-icon"> LinkedIn
+            </a>
+            <a href="https://github.com/ECHagedorn" target="_blank" class="about-link">
+                <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg" alt="GitHub" class="about-icon"> GitHub
+            </a>
+            <a href="/static/Emmanuel_Hagedorn_Resume_2025_v1.pdf" target="_blank" class="about-link">
+                <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/readthedocs.svg" alt="Resume" class="about-icon"> Resume (PDF)
+            </a>
+        </div>
+        <div class="about-columns">
+            <div class="about-col">
+                <h3>What I’ve Achieved</h3>
+                <ul>
+                    <li><small>🌐 Custom domain setup (<strong>hquarter.app</strong>)</small></li>
+
+                    <li><small>🔐 HTTPS via cert-manager & Let’s Encrypt</small></li>
+
+                    <li><small>🛠️ Flask-based portfolio, containerized & deployed on K3s</small></li>
+
+                    <li><small>🧩 Ingress & TLS managed with Helm & Tekton pipelines</small></li>
+
+                    <li><small>⚙️ Automated infrastructure provisioning (IaC)</small></li>
+
+                    <li><small>🗂️ Multi-service, scalable repo structure</small></li>
+
+                    <li><small>🤖 Effective use of AI for DevOps automation</small></li>
+                </ul>
+            </div>
+            <div class="about-col">
+                <h3>Who I Help</h3>
+                <ul>
+                    <li><small>Freelancers & creatives</small></li>
+                    <li><small>Startups & indie SaaS</small></li>
+                    <li><small>Agencies & technical founders</small></li>
+                    <li><small>NGOs & community projects</small></li>
+                </ul>
+                <h3>What I Offer</h3>
+                <ul>
+                    <li><small>Custom domain & SSL/TLS setup</small></li>
+                    <li><small>Kubernetes (K3s) microservice deployments</small></li>
+                    <li><small>CI/CD with Tekton & Helm</small></li>
+                    <li><small>Cloud or local hosting</small></li>
+                    <li><small>Clean, scalable codebase</small></li>
+                </ul>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+.about-section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 2em;
+}
+.about-card {
+    background: #23272a;
+    border-radius: 14px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+    padding: 2.5em 2em 2em 2em;
+    max-width: 800px;
+    width: 100%;
+    color: #f5f6fa;
+}
+.about-profile {
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+    margin-bottom: 1.2em;
+}
+.about-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #181a1b;
+    border: 2px solid #00bfae;
+    padding: 10px;
+}
+.about-names h1 {
+    margin: 0 0 0.2em 0;
+    color: #00bfae;
+    font-size: 2em;
+}
+.about-names h2 {
+    margin: 0;
+    color: #bbb;
+    font-size: 1.1em;
+    font-weight: 400;
+}
+.about-summary {
+    margin-bottom: 1.5em;
+    font-size: 1.12em;
+    color: #e0e0e0;
+}
+.about-highlight {
+    color: #00bfae;
+    font-weight: 500;
+}
+.about-links {
+    display: flex;
+    gap: 1.2em;
+    margin-bottom: 2em;
+}
+.about-link {
+    color: #00bfae;
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid #00bfae;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    transition: color 0.2s;
+}
+.about-link:hover {
+    color: #fff;
+    border-bottom: 1px solid #fff;
+}
+.about-icon {
+    width: 20px;
+    height: 20px;
+    filter: invert(60%) sepia(100%) saturate(500%) hue-rotate(120deg);
+}
+.about-columns {
+    display: flex;
+    gap: 2em;
+    flex-wrap: wrap;
+}
+.about-col {
+    flex: 1 1 300px;
+    min-width: 250px;
+}
+.about-col h3 {
+    color: #00bfae;
+    margin-bottom: 0.4em;
+    font-size: 1.1em;
+}
+.about-col ul {
+    margin: 0 0 1.2em 1.2em;
+    padding: 0;
+    color: #ccc;
+    font-size: 1em;
+}
+.about-col li {
+    margin-bottom: 0.3em;
+}
+@media (max-width: 700px) {
+    .about-columns {
+        flex-direction: column;
+        gap: 1em;
+    }
+    .about-card {
+        padding: 1.5em 0.5em;
+    }
+}
+</style>
+{% endblock %}
+

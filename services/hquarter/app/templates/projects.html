@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Projects | Emmanuel Hagedorn{% endblock %}
+{% block content %}
+<section class="projects-section">
+    <div class="projects-card">
+        <h1>Featured Projects</h1>
+        <div class="projects-list">
+            <ul>
+                <li>
+                    <strong>hquarter.app</strong> — Custom domain, HTTPS, K3s, Helm, Tekton, and more
+                </li>
+                <li>
+                    <strong>Multi-service repo</strong> — Clean, scalable, and production-ready structure
+                </li>
+                <li>
+                    <strong>Automated CI/CD</strong> — Tekton pipelines, IaC, and GitOps workflows
+                </li>
+            </ul>
+        </div>
+        <div class="projects-links">
+            <a href="https://github.com/ECHagedorn" target="_blank" class="about-link">See my code on GitHub</a>
+        </div>
+        <div class="projects-note">
+            <em>
+                This portfolio and its infrastructure were built using AI-assisted workflows, automated pipelines, and infrastructure-as-code—demonstrating the same efficiency and quality I deliver for clients.
+            </em>
+        </div>
+    </div>
+</section>
+<style>
+.projects-section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 2em;
+}
+.projects-card {
+    background: #23272a;
+    border-radius: 14px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+    padding: 2.5em 2em 2em 2em;
+    max-width: 650px;
+    width: 100%;
+    color: #f5f6fa;
+}
+.projects-card h1 {
+    color: #00bfae;
+    font-size: 2em;
+    margin-bottom: 0.5em;
+}
+.projects-list ul {
+    margin: 0 0 1.2em 1.2em;
+    color: #ccc;
+    font-size: 1.08em;
+}
+.projects-links {
+    margin-bottom: 1.2em;
+}
+.projects-note {
+    color: #bbb;
+    font-size: 1em;
+    margin-top: 1.5em;
+    font-style: italic;
+}
+.about-link {
+    color: #00bfae;
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid #00bfae;
+    transition: color 0.2s;
+}
+.about-link:hover {
+    color: #fff;
+    border-bottom: 1px solid #fff;
+}
+</style>
+{% endblock %}
