@@ -83,3 +83,20 @@ spec:
           value: $(params.target-namespace)
         - name: image-url
           value: $(params.image-url)
+
+    - name: verify-rollout
+      taskRef:
+        name: verify-rollout
+      runAfter:
+        - deploy-application
+      params:
+        - name: workload-kind
+          value: Deployment
+        - name: workload-name
+          value: $(params.release-name)
+        - name: namespace
+          value: $(params.target-namespace)
+        - name: timeout
+          value: 120s
+        - name: smoke-url
+          value: ""

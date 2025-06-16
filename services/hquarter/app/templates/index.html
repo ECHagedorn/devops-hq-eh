@@ -1,125 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>HqUARTER - DevOps Portfolio</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-
-  <div class="hero-container">
-    <div class="hero-content">
-      <p class="subtitle">WELCOME TO HqUARTER</p>
-      <h1 class="title">DevOps Engineer Portfolio</h1>
-      <div class="cta-buttons">
-        <a href="#projects" class="btn">Start a Project</a>
-      </div>
-    </div>
-    <div class="scroll-down">↓ SCROLL DOWN</div>
-  </div>
-
-  <!-- Gear background -->
-  <img src="{{ url_for('static', filename='images/gear.svg') }}" class="gear-bg" alt="gear" />
-
-  {% extends "base.html" %}
-  {% block title %}Home | Emmanuel Hagedorn{% endblock %}
-  {% block content %}
-  <section class="hero-section">
-      <div class="hero-card">
-          <h1 class="title">Emmanuel Hagedorn</h1>
-          <h2 class="subtitle">DevOps Engineer & Automation Specialist</h2>
-          <p class="hero-intro">
-              I design, automate, and secure cloud infrastructure for modern teams.<br>
-              <span class="hero-highlight">From code to cloud, I deliver production-grade solutions with precision and reliability.</span>
-          </p>
-          <div class="hero-links">
-              <a href="/services" class="cta">See My Services</a>
-              <a href="/projects" class="cta">View Projects</a>
-          </div>
-      </div>
-  </section>
-  <style>
-  .hero-section {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      margin-top: 3em;
-  }
-  .hero-card {
-      background: #23272a;
-      border-radius: 14px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.18);
-      padding: 3em 2em 2.5em 2em;
-      max-width: 600px;
-      width: 100%;
-      text-align: center;
-      color: #f5f6fa;
-  }
-  .hero-card h1 {
-      color: #00bfae;
-      font-size: 2.5em;
-      margin-bottom: 0.2em;
-  }
-  .hero-card h2 {
-      color: #bbb;
-      font-size: 1.2em;
-      font-weight: 400;
-      margin-bottom: 1.2em;
-  }
-  .hero-intro {
-      font-size: 1.15em;
-      color: #e0e0e0;
-      margin-bottom: 2em;
-  }
-  .hero-highlight {
-      color: #00bfae;
-      font-weight: 500;
-  }
-  .hero-links {
-      display: flex;
-      justify-content: center;
-      gap: 1.5em;
-  }
-  .cta {
-      display: inline-block;
-      padding: 0.75em 2em;
-      background: #00bfae;
-      color: #181a1b;
-      border-radius: 6px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: background 0.2s;
-  }
-  .cta:hover {
-      background: #009e8e;
-  }
-  .cta-alt {
-      display: inline-block;
-      padding: 0.75em 2em;
-      background: #181a1b;
-      color: #00bfae;
-      border: 1px solid #00bfae;
-      border-radius: 6px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: background 0.2s, color 0.2s;
-  }
-  .cta-alt:hover {
-      background: #00bfae;
-      color: #181a1b;
-  }
-  </style>
-  {% endblock %}
-
-  <section id="bottom-section" class="bottom-section">
-    <div class="bottom-card">
-        <h2>Discover More</h2>
-        <p>Explore my services, projects, and how I can help you achieve your DevOps goals.</p>
-        <div class="hero-links">
-            <a href="/services" class="cta">See My Services</a>
-            <a href="/projects" class="cta">View Projects</a>
-        </div>
-    </div>
+{% extends "base.html" %}
+{% block content %}
+<section id="home">
+    <h1>Emmanuel Hagedorn</h1>
+    <h2>DevOps Engineer & Automation Specialist</h2>
+    <p>Welcome to my portfolio!</p>
 </section>
-</body>
-</html>
+<section id="about">
+    <h2>About</h2>
+    <p>Brief info about you goes here.</p>
+</section>
+<section id="services">
+    <h2>Services</h2>
+    <p>What you offer.</p>
+</section>
+<section id="projects">
+    <h2>Projects</h2>
+    <p>Some of your work.</p>
+</section>
+<section id="contact">
+    <h2>Contact</h2>
+    <p>How to reach you.</p>
+</section>
+{% endblock %}

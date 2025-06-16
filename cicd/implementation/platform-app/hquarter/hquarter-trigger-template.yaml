@@ -35,6 +35,9 @@ spec:
     - name: target-namespace
       description: Namespace to deploy to
       default: ""
+    - name: smoke-url
+      description: URL for smoke test
+      default: "" #"https://hquarter.app/healthz"
 
   resourcetemplates:
     - apiVersion: tekton.dev/v1

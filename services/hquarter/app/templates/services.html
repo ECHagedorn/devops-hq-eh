@@ -1,96 +1,101 @@
 {% extends "base.html" %}
-{% block title %}Services | Emmanuel Hagedorn{% endblock %}
 {% block content %}
-<section class="services-section">
-    <div class="services-card">
-        <h1>DevOps Services</h1>
-        <p class="services-intro">
-            I offer end-to-end DevOps solutions, tailored for freelancers, startups, agencies, and technical founders.
-        </p>
-        <div class="services-list">
-            <ul>
-                <li>🌐 Custom domain setup & SSL/TLS</li>
-                <li>☸️ Kubernetes (K3s) microservice deployments</li>
-                <li>⚙️ CI/CD with Tekton</li>
-                <li>📦 Helm-based repeatable deployments</li>
-                <li>☁️ Local or cloud hosting</li>
-                <li>🧩 Clean, scalable codebase</li>
-            </ul>
-        </div>
-        <h2>Service Tiers</h2>
-        <table class="tiers">
-            <tr><th>Tier</th><th>Description</th></tr>
-            <tr><td>Basic</td><td>Deploy portfolio site with domain, SSL, and Helm</td></tr>
-            <tr><td>Standard</td><td>Add CI/CD pipeline, Tekton setup, K8s documentation</td></tr>
-            <tr><td>Pro</td><td>Multi-service setup, GitOps, monitoring, and training</td></tr>
-            <tr><td>Retainer</td><td>Monthly maintenance and pipeline updates</td></tr>
-        </table>
-        <h2>Who I Help</h2>
-        <ul class="client-list">
-            <li>Freelancers & creatives</li>
-            <li>Startups or indie SaaS</li>
-            <li>Agencies</li>
-            <li>Technical founders</li>
-            <li>NGOs / community projects</li>
-        </ul>
-        <div class="services-cta">
-            <a class="cta" href="/contact">Get in Touch</a>
-        </div>
-    </div>
-</section>
 <style>
-.services-section {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    margin-top: 2em;
-}
 .services-card {
-    background: #23272a;
-    border-radius: 14px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+    background: #181b1f;
+    border-radius: 24px;
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25);
     padding: 2.5em 2em 2em 2em;
-    max-width: 650px;
-    width: 100%;
-    color: #f5f6fa;
+    max-width: 700px;
+    width: 95%;
+    margin: 3em auto 2em auto;
+    text-align: center;
 }
-.services-card h1 {
+.services-card h2 {
     color: #00bfae;
     font-size: 2em;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.7em;
 }
-.services-intro {
-    color: #e0e0e0;
-    margin-bottom: 1.2em;
-    font-size: 1.08em;
-}
-.services-list ul {
-    margin: 0 0 1.2em 1.2em;
-    color: #ccc;
-    font-size: 1.08em;
-}
-.tiers {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1.5em 0;
-}
-.tiers th, .tiers td {
-    border: 1px solid #333;
-    padding: 0.5em;
+.services-card ul {
     text-align: left;
+    margin: 1.5em auto 1.5em auto;
+    max-width: 500px;
+    color: #fff;
+    font-size: 1.1em;
 }
-.tiers th {
-    background: #181a1b;
+.services-card ul li {
+    margin-bottom: 0.7em;
+}
+.services-card table {
+    margin: 2em auto 1.5em auto;
+    width: 100%;
+    max-width: 500px;
+    border-collapse: collapse;
+    color: #fff;
+    font-size: 1em;
+}
+.services-card th, .services-card td {
+    border: 1px solid #222;
+    padding: 0.7em;
+}
+.services-card th {
+    background: #111;
     color: #00bfae;
 }
-.client-list {
-    margin: 0 0 1.2em 1.2em;
-    color: #ccc;
-    font-size: 1.08em;
+.services-card h3 {
+    color: #00bfae;
+    margin-top: 2em;
+    margin-bottom: 0.7em;
 }
-.services-cta {
-    text-align: center;
-    margin-top: 1.5em;
+.services-card a {
+    color: #00bfae;
+    text-decoration: underline;
 }
 </style>
+<div class="services-card">
+    <h2>DevOps Services</h2>
+    <p>
+        I offer end-to-end DevOps solutions, tailored for freelancers, startups, agencies, and technical founders.
+    </p>
+    <ul>
+        <li>🌐 Custom domain setup &amp; SSL/TLS</li>
+        <li>☸️ Kubernetes (K3s) microservice deployments</li>
+        <li>⚙️ CI/CD with Tekton</li>
+        <li>📦 Helm-based repeatable deployments</li>
+        <li>☁️ Local or cloud hosting</li>
+        <li>🧩 Clean, scalable codebase</li>
+    </ul>
+    <h3>Service Tiers</h3>
+    <table>
+        <tr>
+            <th>Tier</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>Basic</td>
+            <td>Deploy portfolio site with domain, SSL, and Helm</td>
+        </tr>
+        <tr>
+            <td>Standard</td>
+            <td>Add CI/CD pipeline, Tekton setup, K8s documentation</td>
+        </tr>
+        <tr>
+            <td>Pro</td>
+            <td>Multi-service setup, GitOps, monitoring, and training</td>
+        </tr>
+        <tr>
+            <td>Retainer</td>
+            <td>Monthly maintenance and pipeline updates</td>
+        </tr>
+    </table>
+    <h3>Who I Help</h3>
+    <ul>
+        <li>Freelancers &amp; creatives</li>
+        <li>Startups or indie SaaS</li>
+        <li>Agencies</li>
+        <li>Technical founders</li>
+        <li>NGOs / community projects</li>
+    </ul>
+    <h3><a href="/contact">Get in Touch&rarr;</a></h3>
+</div>
 {% endblock %}

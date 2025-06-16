@@ -1,0 +1,57 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: verify-rollout               # reference with taskRef.name: verify-rollout
+  namespace: tekton-pipelines
+  labels:
+    app.kubernetes.io/component: cicd
+    app.kubernetes.io/part-of: hquarter
+spec:
+  description: >-
+    Waits for a Deployment (or StatefulSet) to finish rolling out, then
+    optionally performs an HTTP smoke test against a supplied URL.
+  params:
+    - name: workload-kind            # Deployment or StatefulSet
+      description: Kubernetes workload kind to verify
+      type: string
+      default: Deployment
+    - name: workload-name            # e.g. hquarter
+      description: Name of the workload to verify
+      type: string
+    - name: namespace
+      description: Namespace containing the workload
+      type: string
+      default: devops-hq-eh
+    - name: timeout                  # rollout wait timeout
+      description: >-
+        How long kubectl should wait for rollout (accepts 30s, 2m, 5m).
+      type: string
+      default: 120s
+    - name: smoke-url                # optional http(s) endpoint
+      description: Optional URL to curl after rollout succeeds
+      type: string
+      default: ""                    # empty = skip smoke test
+  steps:
+    - name: wait-for-rollout
+      image: bitnami/kubectl:1.29
+      script: |
+        #!/bin/sh
+        set -e
+        echo "🔎 Waiting for $(params.workload-kind)/$(params.workload-name) in namespace $(params.namespace)…"
+        kubectl rollout status $(params.workload-kind)/$(params.workload-name) \
+          --namespace $(params.namespace) \
+          --timeout $(params.timeout)
+
+    - name: smoke-test
+      image: curlimages/curl:8.5.0
+      script: |
+        #!/bin/sh
+        set -e
+        if [ -z "$(params.smoke-url)" ]; then
+          echo "✅ No smoke URL provided; skipping HTTP check."
+          exit 0
+        fi
+        echo "🌐 Running smoke test: $(params.smoke-url)"
+        curl -fsSL --retry 3 --retry-delay 2 "$(params.smoke-url)"
+        echo "✅ Smoke test passed."
+

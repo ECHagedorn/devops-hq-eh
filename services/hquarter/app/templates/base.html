@@ -2,23 +2,100 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Emmanuel Hagedorn | DevOps Engineer{% endblock %}</title>
+    <title>Emmanuel Hagedorn | Portfolio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <style>
+        html, body { background: #000; color: #fff; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        .hamburger {
+            position: fixed; top: 1.5em; left: 1.5em; width: 60px; height: 60px; z-index: 1001;
+            background: none; border: none; cursor: pointer;
+        }
+        .hamburger span, .hamburger span:before, .hamburger span:after {
+            display: block; background: #fff; height: 4px; width: 32px; border-radius: 2px; position: absolute; transition: 0.3s;
+        }
+        .hamburger span { position: relative; top: 18px; }
+        .hamburger span:before { content: ''; position: absolute; top: -10px; left: 0; }
+        .hamburger span:after { content: ''; position: absolute; top: 10px; left: 0; }
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0; /* Change from right to left */
+            width: 220px;
+            height: 100vh;
+            background: #111;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.4); /* Adjust shadow direction */
+            transform: translateX(-100%); /* Move off-screen to the left */
+            transition: transform 0.3s;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 4em;
+        }
+        nav.open {
+            transform: translateX(0); /* Slide in from the left */
+        }
+        nav a { color: #fff; text-decoration: none; margin: 1.2em 0; font-size: 1.2em; transition: color 0.2s; }
+        nav a.active, nav a:hover { color: #00bfae; }
+        section { padding: 4em 1em 3em 1em; max-width: 900px; margin: 0 auto; }
+        @media (max-width: 600px) {
+            section { padding: 4em 0.5em 2em 0.5em; }
+            nav { width: 100vw; }
+        }
+        /* Spinning gear animation */
+        .spinning-gear {
+            position: fixed;
+            bottom: 2em;
+            right: 2em;
+            width: 48px;
+            height: 48px;
+            z-index: 2000;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            100% { transform: rotate(360deg);}
+        }
+    </style>
+    <script>
+        function toggleMenu() {
+            document.getElementById('nav').classList.toggle('open');
+        }
+        function closeMenu() {
+            document.getElementById('nav').classList.remove('open');
+        }
+        window.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('nav a').forEach(function(link) {
+                link.addEventListener('click', closeMenu);
+            });
+
+            // Scroll on click logic
+            document.body.addEventListener('click', function(e) {
+                // Ignore clicks on nav or hamburger
+                if (e.target.closest('nav') || e.target.closest('.hamburger') || e.target.closest('.spinning-gear')) return;
+                const y = e.clientY;
+                const half = window.innerHeight / 2;
+                if (y > half) {
+                    window.scrollBy({top: window.innerHeight * 0.8, behavior: 'smooth'});
+                } else {
+                    window.scrollBy({top: -window.innerHeight * 0.8, behavior: 'smooth'});
+                }
+            });
+        });
+    </script>
 </head>
 <body>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-        <a href="/services">Services</a>
-        <a href="/projects">Projects</a>
-        <a href="/contact">Contact</a>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Open navigation">
+        <span></span>
+    </button>
+    <nav id="nav">
+        <a href="/" class="{% if active == 'home' %}active{% endif %}">HOME</a>
+        <a href="/about" class="{% if active == 'about' %}active{% endif %}">ABOUT</a>
+        <a href="/services" class="{% if active == 'services' %}active{% endif %}">SERVICES</a>
+        <a href="/projects" class="{% if active == 'projects' %}active{% endif %}">PROJECTS</a>
+        <a href="/contact" class="{% if active == 'contact' %}active{% endif %}">CONTACT</a>
     </nav>
-    <main>
-        {% block content %}{% endblock %}
-    </main>
-    <footer>
-        <p>&copy; {{ 2025 }} Emmanuel Hagedorn &mdash; <a href="https://ca.linkedin.com/in/echagedorn" target="_blank">LinkedIn</a> | <a href="https://github.com/ECHagedorn" target="_blank">GitHub</a></p>
-    </footer>
+    {% block content %}{% endblock %}
+    <img src="{{ url_for('static', filename='gear.svg') }}" alt="Spinning Gear" class="spinning-gear">
 </body>
 </html>

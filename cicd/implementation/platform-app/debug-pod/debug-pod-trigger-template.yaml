@@ -71,3 +71,5 @@ spec:
             value: debug-pod
           - name: target-namespace
             value: devops-hq-eh
+          - name: smoke-url
+            value: "" #"https://debug-pod.app/healthz"
