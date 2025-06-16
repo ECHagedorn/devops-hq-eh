@@ -1,3 +1,5 @@
+# Welcome to HqUARTER!
+# 
 # Order of use:
 
 1. *./tooling/setup*:         Installation of required tools on workstation includes but not limited to:
@@ -25,4 +27,3 @@
 6. *./cloudOps*:              Directory for cloud resourcing, and automation scripts
 
 7. *./docs*:                  Feel free to write a journal of lessons learned and experiences you've encountered
-
