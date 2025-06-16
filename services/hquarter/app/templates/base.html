@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Emmanuel Hagedorn | DevOps Engineer{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/services">Services</a>
+        <a href="/projects">Projects</a>
+        <a href="/contact">Contact</a>
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; {{ 2025 }} Emmanuel Hagedorn &mdash; <a href="https://ca.linkedin.com/in/echagedorn" target="_blank">LinkedIn</a> | <a href="https://github.com/ECHagedorn" target="_blank">GitHub</a></p>
+    </footer>
+</body>
+</html>
