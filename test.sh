@@ -7,20 +7,24 @@ URLS=(
   "https://app.netlify.com/"
 )
 
+if [ ${#URLS[@]} -gt 10 ]; then
+  echo "❌ Too many URLs. Limit is 10."
+  exit 1
+fi
+
 echo "🔁 Running AI Agent on multiple URLs..."
 
 for url in "${URLS[@]}"; do
   echo -e "\n🌐 Testing URL: $url"
 
-  kubectl exec -i deploy/ai-agent -- expect <<EOF
-spawn python3 /app/main.py
+  expect <<EOEXP
+spawn kubectl exec -it deploy/ai-agent -- python3 /app/app/main.py
 expect "🌐 URL>"
 send "$url\r"
 expect "🌐 URL>"
 send "exit\r"
-EOF
+EOEXP
 
 done
 
-echo -e "\n✅ Done
-
+echo -e "\n✅ Done"

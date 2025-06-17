@@ -1,3 +1,19 @@
+def agent_repl():
+    print("🟢 AI Agent is live. Type a URL to analyze or 'exit' to quit.")
+    urls = []
+
+    while True:
+        url = input("🌐 URL> ").strip()
+        if url.lower() == "exit":
+            break
+        urls.append(url)
+
+        if len(urls) > 10:
+            print("❌ Limit reached: Only 10 URLs allowed per batch.")
+            break
+
+    for url in urls:
+        handle_url(url)
 import sys
 from ai_agent.url_fetcher import fetch_url
 from ai_agent.classifier import classify
@@ -24,18 +40,3 @@ def handle_url(url):
     print_disclaimer(url)
 
 def agent_repl():
-    print("🟢 AI Agent is live. Type a URL to analyze or 'exit' to quit.")
-    while True:
-        try:
-            url = input("🌐 URL> ").strip()
-            if url.lower() == "exit":
-                break
-            handle_url(url)
-        except EOFError:
-            break
-
-if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        handle_url(sys.argv[1])
-    else:
-        agent_repl()
