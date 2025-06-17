@@ -12,7 +12,7 @@ spec:
             name: cel
           params:
             - name: filter
-              value: "body.ref == 'refs/heads/master' && body.head_commit.modified.exists(x, x.startsWith('services/debug-pod/')) || body.head_commit.modified.exists(x, x.startsWith('manifests/helm/debug-pod/')))"
+              value: "body.ref == 'refs/heads/master' && (body.head_commit.modified.exists(x, x.startsWith('services/debug-pod/')) || body.head_commit.modified.exists(x, x.startsWith('manifests/helm/debug-pod/')))"
       bindings:
         - ref: git-push-trigger-binding
       template:
@@ -23,7 +23,7 @@ spec:
             name: cel
           params:
             - name: filter
-              value: "body.ref == 'refs/heads/master' && body.head_commit.modified.exists(x, x.startsWith('services/hquarter/')) || body.head_commit.modified.exists(x, x.startsWith('manifests/helm/hquarter/')))"
+              value: "body.ref == 'refs/heads/master' && (body.head_commit.modified.exists(x, x.startsWith('services/hquarter/')) || body.head_commit.modified.exists(x, x.startsWith('manifests/helm/hquarter/')))"
       bindings:
         - ref: git-push-trigger-binding
       template:
@@ -34,7 +34,7 @@ spec:
             name: cel
           params:
             - name: filter
-              value: "body.ref == 'refs/heads/ai-agent' && (body.head_commit.modified.exists(x, x.startsWith('manifests/helm/ai-agent/')) || body.head_commit.modified.exists(x, x.startsWith('manifests/helm/ai-agent/')))"
+              value: "body.ref == 'refs/heads/ai-1' && (body.head_commit.modified.exists(x, x.startsWith('services/ai-agent/')) || body.head_commit.modified.exists(x, x.startsWith('manifests/helm/ai-agent/')))"
       bindings:
         - ref: git-push-trigger-binding
       template:

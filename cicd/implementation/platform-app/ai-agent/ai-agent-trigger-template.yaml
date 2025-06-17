@@ -40,7 +40,7 @@ spec:
     - apiVersion: tekton.dev/v1
       kind: PipelineRun
       metadata:
-        generateName: build-deploy-debug-pipeline-run-
+        generateName: build-deploy-ai-agent-pipeline-run-
         namespace: tekton-pipelines
       spec:
         pipelineRef:
@@ -62,9 +62,9 @@ spec:
           - name: image-url
             value: "192.168.2.11:32594/ai-agent:$(tt.params.git-commit-sha)"
           - name: dockerfile-path
-            value: services/ai-agent/Dockerfile
+            value: Dockerfile
           - name: context-path
-            value: .
+            value: services/ai-agent
           - name: chart-relative-path
             value: manifests/helm/ai-agent
           - name: release-name
