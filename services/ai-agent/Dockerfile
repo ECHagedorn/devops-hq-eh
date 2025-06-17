@@ -6,4 +6,4 @@ COPY ai_agent/main.py .
 
 RUN pip install requests
 
-CMD ["python", "main.py", "https://2025electionresults.comelec.gov.ph/er-result"]
+CMD ["python", "main.py"]
