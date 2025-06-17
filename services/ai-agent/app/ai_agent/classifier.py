@@ -13,4 +13,3 @@ def classify(response):
     elif "javascript" in content_type:
         return "js-app"
     return "unknown"
-

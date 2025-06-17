@@ -1,0 +1,85 @@
+# Package init
+def analyze_page(url, response):
+    url_lower = url.lower()
+    text = response.text.lower()
+    if "comelec" in url_lower and "er-result" in url_lower:
+        return "election returns portal"
+    if "coc-result" in url_lower:
+        return "certificate of canvass portal"
+    return "unknown site intent"
+def classify(response):
+    content_type = response.headers.get("Content-Type", "").lower()
+    body = response.text.lower()
+
+    if "application/json" in content_type:
+        return "json-api"
+    elif "text/plain" in content_type:
+        return "plaintext"
+    elif "text/html" in content_type:
+        if "react" in body or "<script" in body and "loading" in body:
+            return "js-app"
+        return "static-html"
+    elif "javascript" in content_type:
+        return "js-app"
+    return "unknown"
+
+from bs4 import BeautifulSoup
+
+def execute_plan(plan, response=None, url=None):
+    if plan == "direct_parse":
+        try:
+            data = response.json()
+            return f"Parsed JSON:\nTop-level keys: {list(data.keys())}"
+        except Exception as e:
+            return f"Failed to parse JSON: {str(e)}"
+
+    if plan == "scrape_with_bs4":
+        try:
+            soup = BeautifulSoup(response.text, "html.parser")
+            title = soup.title.string.strip() if soup.title else "No title"
+            links = [a.get('href') for a in soup.find_all('a', href=True)]
+            return f"HTML Title: {title}\nFound {len(links)} links"
+        except Exception as e:
+            return f"Failed to scrape HTML: {str(e)}"
+
+    if plan == "manual_api_discovery":
+        return "This appears to be a JavaScript-rendered site. Consider using a headless browser to inspect dynamic API activity."
+
+    if plan in ["crawl_er_api", "crawl_coc_api"]:
+        if "comelec.gov.ph" not in (url or ""):
+            return "This action is COMELEC-specific and not applicable to this domain."
+        return "Would crawl COMELEC's public API endpoints starting at /api/regions"
+
+    return "No execution performed"
+def plan_action(page_type, intent):
+    if "election returns" in intent:
+        return "crawl_er_api"
+    elif "certificate of canvass" in intent:
+        return "crawl_coc_api"
+    elif page_type == "json-api":
+        return "direct_parse"
+    elif page_type == "static-html":
+        return "scrape_with_bs4"
+    elif page_type == "js-app":
+        return "manual_api_discovery"
+    return "no_action"
+import requests
+
+def fetch_url(url):
+    try:
+        headers = {"User-Agent": "Mozilla/5.0"}
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+        return response
+    except requests.RequestException as e:
+        print(f"Fetch error: {e}")
+        return None
+def print_disclaimer(url: str):
+    if "comelec.gov.ph" in url:
+        print("\n📜 DISCLAIMER:")
+        print("This data was retrieved from the publicly accessible COMELEC 2025 election results portal:")
+        print("→ https://2025electionresults.comelec.gov.ph")
+        print("\nThe information is provided as-is for educational, analytical, and civic transparency purposes.")
+        print("It does not represent an official tally or endorsement by COMELEC or the Government of the Philippines.")
+        print("Redistribution or publication of this data should clearly attribute COMELEC as the original source.")
+        print("Please use responsibly and respect any official clarifications or updates from COMELEC.\n")
