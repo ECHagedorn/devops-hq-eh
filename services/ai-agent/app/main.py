@@ -17,7 +17,7 @@ def run_agent(url: str):
     plan_name = plan(classification, intent)
     result = execute_plan(plan_name, response, url)
 
-    print(f"\n🔍 Classification: {classification}")
+    print(f"\\n🔍 Classification: {classification}")
     print(f"🧠 Intent: {intent}")
     print(f"🗺️ Plan: {plan_name}")
     print(f"📦 Result: {result}")
