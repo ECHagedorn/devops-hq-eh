@@ -1,3 +1,4 @@
+import ai_agent.config as config
 def print_disclaimer(url):
     if "comelec.gov.ph" not in url:
         return
