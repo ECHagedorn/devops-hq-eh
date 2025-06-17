@@ -1,40 +1,51 @@
 #!/bin/bash
-
 set -e
 
-cd "$(dirname "$0")/services/ai-agent"
+echo "🔧 Patching main.py to support CLI and REPL mode..."
 
-echo "Restructuring ai-agent to match hquarter structure..."
+cat > services/ai-agent/app/main.py <<'EOF'
+import sys
+from ai_agent.classifier import classify
+from ai_agent.analyzer import analyze
+from ai_agent.planner import plan
+from ai_agent.executor import execute_plan
+from ai_agent.url_fetcher import fetch_url
+from ai_agent.utils import print_disclaimer
 
-# 1. Create app/ai_agent and move all ai_agent code there
-mkdir -p app/ai_agent
-mv ai_agent/*.py app/ai_agent/
+def run_agent(url: str):
+    response = fetch_url(url)
+    if not response:
+        print("❌ Failed to fetch URL.")
+        return
 
-# 2. Move main.py to app/
-mv app/ai_agent/main.py app/
+    classification = classify(response)
+    intent = analyze(response)
+    plan_name = plan(classification, intent)
+    result = execute_plan(plan_name, response, url)
 
-# 3. Remove old ai_agent dir if empty
-rmdir ai_agent 2>/dev/null || true
+    print(f"\n🔍 Classification: {classification}")
+    print(f"🧠 Intent: {intent}")
+    print(f"🗺️ Plan: {plan_name}")
+    print(f"📦 Result: {result}")
+    print_disclaimer(url)
 
-# 4. Create requirements.txt (add your dependencies here)
-cat > requirements.txt <<EOF
-requests
-beautifulsoup4
+def agent_repl():
+    print("🟢 AI Agent is live. Type a URL to analyze or 'exit' to quit.")
+    while True:
+        try:
+            url = input("🌐 URL> ").strip()
+            if url.lower() == "exit":
+                break
+            run_agent(url)
+        except EOFError:
+            break
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        run_agent(sys.argv[1])
+    else:
+        agent_repl()
 EOF
 
-# 5. Update Dockerfile to match hquarter style
-cat > Dockerfile <<EOF
-FROM python:3.10-slim
+echo "✅ main.py now supports CLI args and REPL fallback."
 
-WORKDIR /app
-
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY app /app/app
-
-CMD ["python", "app/main.py"]
-EOF
-
-echo "Done! Structure is now:"
-tree .
