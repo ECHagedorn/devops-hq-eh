@@ -1,0 +1,8 @@
+jobName: ai-agent-job
+
+image:
+  repository: "192.168.2.11:32594/ai-agent"
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+backoffLimit: 1

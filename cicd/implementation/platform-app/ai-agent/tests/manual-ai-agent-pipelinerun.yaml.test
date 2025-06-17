@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: build-deploy-ai-agent-run-manual-001
+  namespace: tekton-pipelines
+spec:
+  pipelineRef:
+    name: build-deploy-ai-agent-pipeline
+  serviceAccountName: tekton-sa
+  params: 
+    - name: IMAGE_NAME
+      value: 192.168.2.11:32594/ai-agent:latest
+    - name: repo-url
+      value: 'git@github.com:ECHagedorn/devops-hq-eh.git'
+    - name: 'repo-revision'
+      value: master 
+  workspaces:
+    - name: shared-workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi

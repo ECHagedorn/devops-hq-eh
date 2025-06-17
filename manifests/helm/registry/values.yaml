@@ -1,0 +1,26 @@
+namespace: registry
+
+image:
+  repository: registry
+  tag: "2"
+  pullPolicy: IfNotPresent
+
+persistence:
+  enabled: true
+  storageClass: ""
+  accessModes:
+    - ReadWriteOnce
+  size: 5Gi
+  existingClaim: ""
+  mountPath: /var/lib/registry
+
+service:
+  type: ClusterIP
+  port: 5000
+
+nodePortService:
+  enabled: true
+  name: registry-np
+  type: NodePort
+  port: 5000
+  nodePort: 32594

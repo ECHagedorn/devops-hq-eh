@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: registry-pv
+  namespace: {{ .Values.namespace }}
+spec:
+  capacity:
+    storage: {{ .Values.persistence.size }}
+  accessModes: {{ toYaml .Values.persistence.accessModes | nindent 4 }}
+  hostPath:
+    path: /opt/registry-data
