@@ -32,7 +32,8 @@ def agent_repl():
         print("🧠 Intent:", intent)
         print("🗺️ Plan:", plan)
         print("📦 Result:", result)
-        print_disclaimer()
+        print_disclaimer(url)
 
 if __name__ == "__main__":
     agent_repl()
+# WARNING: print_disclaimer(url) was not found or updated. Manually check main.py.
