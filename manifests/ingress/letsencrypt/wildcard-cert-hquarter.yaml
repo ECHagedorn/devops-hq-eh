@@ -1,0 +1,15 @@
+# wildcard-certificate.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: hquarter-wildcard
+  namespace: devops-hq-eh
+spec:
+  secretName: hquarter-wildcard-tls
+  issuerRef:
+    name: letsencrypt-gcp
+    kind: ClusterIssuer
+  commonName: '*.hquarter.app'
+  dnsNames:
+    - '*.hquarter.app'
+    - 'hquarter.app'

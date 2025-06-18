@@ -1,0 +1,38 @@
+replicaCount: 1
+image:
+  repository: nginx
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 443
+
+proxy:
+  tls:
+    cert: tls.crt
+    key: tls.key
+  routes:
+    - host: hquarter.app
+      address: http://127.0.0.1:5000
+    - host: tkn.hquarter.app
+      address: http://127.0.0.1:9097
+    - host: stg.hquarter.app
+      address: http://192.168.2.16:5000
+    - host: tkn-stg.hquarter.app
+      address: http://192.168.2.16:9097
+
+proxy:
+  ports:
+    - name: https
+      port: 443
+      nodePort: 30443
+  routes:
+    - host: hquarter.app
+      destination: http://192.168.2.11:5000 
+    - host: staging.hquarter.app
+      destination: http://192.168.2.16:30080
+    - host: tekton.hquarter.app
+      destination: http://tekton-dashboard-np.tekton-pipelines.svc.cluster.local:9097
+    - host: tekton-stg.hquarter.app
+      destination: http://192.168.2.16:30180 

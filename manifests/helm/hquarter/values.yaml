@@ -22,7 +22,8 @@ ingress:
   host: hquarter.app
   tlsSecret: hquarter-tls
   clusterIssuer: letsencrypt-prod
-
+  ssl-redirect: false
+    # false because of reverse proxy ssl termination
 serviceAccount:
   # If set, use this value as serviceAccount name, otherwise defaults to <deploymentName>-sa
   name: ""

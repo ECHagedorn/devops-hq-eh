@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: hquarter-wildcard
+  namespace: {{ .Release.Namespace }}
+spec:
+  secretName: {{ .Values.tls.secretName }}
+  issuerRef:
+    name: {{ .Values.tls.issuer.name }}
+    kind: {{ .Values.tls.issuer.kind }}
+  commonName: "{{  printf "*.%s" .Values.domains.common }}"
+  dnsNames:
+    - "{{  printf "*.%s" .Values.domains.common }}"
+    - {{ .Values.domains.common }}

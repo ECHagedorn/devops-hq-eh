@@ -1,0 +1,18 @@
+# cluster-issuer.yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-gcp
+spec:
+  acme:
+    email: hagedorn.emmanuel.us@gmail.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-gcp-account-key
+    solvers:
+      - dns01:
+          cloudDNS:
+            project: methodical-path-463023-f4
+            serviceAccountSecretRef:
+              name: gcp-dns-credentials
+              key: key.json

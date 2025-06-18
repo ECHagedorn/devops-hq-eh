@@ -1,0 +1,5 @@
+apiVersion: v2
+name: reverse-proxy
+description: NGINX reverse proxy routing to multi-cluster apps with TLS
+version: 0.2.0
+appVersion: "1.25"

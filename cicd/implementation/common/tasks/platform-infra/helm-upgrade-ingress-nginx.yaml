@@ -25,7 +25,7 @@ spec:
           --set controller.ingressClassResource.enabled=true \
           --set controller.ingressClassResource.default=true \
           --set controller.service.type=LoadBalancer \
-          --set controller.service.externalIPs[0]=142.181.161.110 \
+          --set controller.service.externalIPs[0]=192.168.2.11 \
           --set controller.service.externalTrafficPolicy=Local \
           --set controller.extraArgs.enable-ssl-passthrough=true \
           --atomic \

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-reverse
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-reverse
+  template:
+    metadata:
+      labels:
+        app: nginx-reverse
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:{{ .Values.image.tag }}
+          ports:
+            - containerPort: 443
+              hostPort: {{ .Values.ports.https }}
+              protocol: TCP
+            - containerPort: 80
+              hostPort: {{ .Values.ports.http }}
+              protocol: TCP
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: certs
+              mountPath: /etc/nginx/certs
+              readOnly: true
+      volumes:
+        - name: config-volume
+          configMap:
+            name: nginx-reverse-config
+        - name: certs
+          secret:
+            secretName: {{ .Values.tls.secretName }}

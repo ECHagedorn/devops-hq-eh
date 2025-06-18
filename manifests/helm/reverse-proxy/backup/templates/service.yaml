@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-reverse
+  namespace: reverse-proxy
+spec:
+  selector:
+    app: nginx-reverse
+  type: ClusterIP
+  ports:
+    - name: https
+      port: 443
+      targetPort: 443
+    - name: http
+      port: 80
+      targetPort: 80
